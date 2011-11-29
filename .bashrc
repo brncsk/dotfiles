@@ -16,6 +16,7 @@
 
 	# Replace name of certain directories with Unicode chars
 	function sane_cwd {
+		PROMPTCHAR=❯
 		PPATH=${PWD/$HOME\//⌂ → }
 		PPATH=${PPATH/$HOME/⌂}
 		PPATH=${PPATH/\/data\/documents\//⛁ →   → }
@@ -26,8 +27,22 @@
 		PPATH=${PPATH/\/data/⛁}
 	}
 
-	function parse_git_branch {
-		GITBRANCH=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1) /');
+	function parse_git_info {
+		git_branch=$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+		if [ ! -z $git_branch ]; then
+			PROMPTCHAR=∓
+			git_stat=$(git status 2>/dev/null | grep '\(# Untracked\|# Changes\|# Changed but not updated:\)')
+
+			if [[ $(echo $git_stat | grep -c "to be committed:") > 0 ]]; then
+				git_extra="*"
+			fi
+
+			if [[ $(echo ${git_stat} | grep -c "\(Untracked\|but not updated\)") > 0 ]]; then
+				git_extra="!"
+			fi 
+			
+			GITINFO="($git_branch$git_extra) "
+		fi
 	}
 
 	function build_prompt {
@@ -49,9 +64,9 @@
 	CUR_SAVE="\[\033[s\]"
 	CUR_RESTORE="\[\033[u\]"
 
-	PROMPT_COMMAND='sane_cwd;parse_git_branch;build_prompt'
+	PROMPT_COMMAND='sane_cwd;parse_git_info;build_prompt'
 	PS1=$GREY'$STATUS'$GREEN"\u"$GREY" @ "$BLUE"\h"$GREY" : "\
-$PINK'$PPATH'$ORANGE' $GITBRANCH'$GREY'❯ '$RESET
+$PINK'$PPATH '$ORANGE'$GITINFO'$GREY'$PROMPTCHAR '$RESET
 
 # }}}
 # xterm miscellanea --------------------------------------------------------------------------- {{{
