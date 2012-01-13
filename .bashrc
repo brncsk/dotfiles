@@ -11,6 +11,8 @@
 
 	[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
+	export PATH=$PATH:/data/applications/android-sdk-linux/platform-tools
+
 # }}}
 # Prompt -------------------------------------------------------------------------------------- {{{
 
@@ -42,6 +44,8 @@
 			fi 
 			
 			GITINFO="($git_branch$git_extra) "
+		else
+			GITINFO=""
 		fi
 	}
 

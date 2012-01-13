@@ -65,7 +65,7 @@
 	set noexpandtab
 	set wrap
 	set textwidth		=100
-	set formatoptions	=qrn1
+	set formatoptions	=qrn1tc
 	set colorcolumn		=+1
 
 " }}}
@@ -317,6 +317,10 @@
 		nnoremap	<leader>v	<C-w>s<C-w>j:e $MYVIMRC<CR>
 		nnoremap	<leader>r	:source $MYVIMRC<CR>
 		nnoremap	<leader>t	<C-w>s<C-w>j:e /data/documents/todo.org<CR>
+
+	" Pasting from the OS clipboard
+		nnoremap	<leader>p	"+p
+		nnoremap	<leader>P	"+P
 
 	" Reformat paragraphs
 		nnoremap	Q			gqip
