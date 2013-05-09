@@ -4,6 +4,7 @@
 
 " Preamble ------------------------------------------------------------------------------------ {{{
 
+	let g:Powerline_symbols="fancy"
 	call pathogen#infect()
 	filetype plugin indent on
 	set nocompatible
@@ -112,7 +113,6 @@
 	set statusline	+=,								" ,
 	set statusline	+=%{strlen(&fenc)?&fenc:&enc}   " Encoding (utf-8)
 	set statusline	+=,								" ,
-	set statusline	+=%{&ft}                        " Type (python)
 	set statusline	+=)								" )
 	set statusline	+=\ (L\ %l\/%L,\ C\ %3c)		" Line/col position/count
 
@@ -239,6 +239,11 @@
 " }}}
 " Plugins ------------------------------------------------------------------------------------- {{{
 
+	" Powerline {{{
+	
+
+	" }}}
+
 	" NERD Tree {{{
 
 		nnoremap <F2> :NERDTreeToggle<CR>
@@ -253,7 +258,7 @@
 		let NERDTreeIgnore = ['\~$', '.*\.pyc$', 'xapian_index', '.*.pid',  '.*\.o$', 'db.db']
 
 
-	"}}} 
+	" }}} 
 	" Org mode {{{
 
 		let g:org_agenda_files	= ['/data/documents/todo.org']
@@ -261,12 +266,12 @@
 		let g:org_todo_keywords	= ['TODO', '|', 'DONE']
 		let g:org_debug			= 1
 
-	"}}}
+	" }}}
 	" Zen coding {{{
 	
 		:imap <S-CR> <C-y>,
 
-	"}}}
+	" }}}
 	" Scratch pad {{{
 
 		command! ScratchToggle call ScratchToggle()
@@ -282,7 +287,7 @@
 
 		nnoremap <silent> <leader><Tab> :ScratchToggle<CR>
 
-	"}}}
+	" }}}
 	" Taglist {{{
 
 		nnoremap <F3> :TlistToggle<CR>
@@ -311,12 +316,32 @@
 		imap		<C-w>		<Esc>:q<CR>
 		imap		<C-t>		<Esc>:tabnew<CR>
 
+		nmap		<M-Right>	:tabnext<CR>
+		nmap		<M-Left>	:tabprevious<CR>
+		imap		<M-Right>	<Esc>:tabnext<CR>
+		imap		<M-Left>	<Esc>:tabprevious<CR>
+
+
 	" }}}
+
+	" Python
+
+		if !exists("autocommands_loaded")
+			let autocommands_loaded = 1
+			autocmd BufRead,BufNewFile,FileReadPost *.py source ~/.vim/python.vimrc
+		endif
+
+	" Vala
+
+		autocmd BufRead *.vala,*.vapi set efm=%f:%l.%c-%[%^:]%#:\ %t%[%^:]%#:\ %m
+		au BufRead,BufNewFile *.vala,*.vapi setfiletype vala
+
+	" NOOOOO
+		nnoremap	:W			:w
 
 	" Quick-edit frequent stuff in split 
 		nnoremap	<leader>v	<C-w>s<C-w>j:e $MYVIMRC<CR>
 		nnoremap	<leader>r	:source $MYVIMRC<CR>
-		nnoremap	<leader>t	<C-w>s<C-w>j:e /data/documents/todo.org<CR>
 
 	" Pasting from the OS clipboard
 		nnoremap	<leader>p	"+p
@@ -375,4 +400,17 @@
 
 		nnoremap <F5> :call RunProcessing()<CR>
 		inoremap <F5> <ESC>:call RunProcessing()<CR>
+
+	" Save next diary entry
+		function! SaveDiary () " {{{
+
+			let path="/data/documents/diary/"
+			let date=strftime("%Y-%m-%d")
+
+			w path.date.".txt" 
+
+		endfunction "}}}
+
+		nnoremap :wd<CR> :call SaveDiary()<CR>
+
 " }}}
