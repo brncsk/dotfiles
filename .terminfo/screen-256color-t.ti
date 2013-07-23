@@ -1,0 +1,2 @@
+screen-256color-t|Tmux running in a recent VTE version,
+	use=screen-256color, ritm=\E[23m, sitm=\E[3m,
