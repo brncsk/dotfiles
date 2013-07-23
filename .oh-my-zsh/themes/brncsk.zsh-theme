@@ -187,12 +187,12 @@ function set_title () {
 	tmux rename-window $t
 }
 
+set_term_dependent_stuff;
+
 ZSH_THEME_RETVAL_PREFIX=`SP; FG yellow; CH Al; BG yellow; FG grey1; SP;`
 ZSH_THEME_RETVAL_SUFFIX=`SP; FX 0; FG yellow; CH Ar; FX 0`
 
-local return_code="%(?..$ZSH_THEME_RETVAL_PREFIX%? ↵$ZSH_THEME_RETVAL_SUFFIX)"
-
-set_term_dependent_stuff;
+local return_code="%(?..${ZSH_THEME_RETVAL_PREFIX}%? ↵$ZSH_THEME_RETVAL_SUFFIX)"
 
 PS1='$(set_title)$(sane_cwd)'`FX b-SP; FG base; SP; CH ar; FX 0; SP`
 RPS1=$return_code'$(git_prompt_info)'
