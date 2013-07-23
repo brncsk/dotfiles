@@ -6,6 +6,7 @@ function term_type {
 	([[ `tty` == *pts* && $TERM == *screen* ]] && echo 'xscreen') || \
 	([[ $TERM == *screen* ]] && echo 'screen') || \
 	([[ $TERM == *xterm* ]] && echo 'xterm') || \
+	([[ $TERM == *vte* ]] && echo 'vte') || \
 	echo 'unknown'
 } # }}}
 
@@ -48,7 +49,7 @@ function set_term_dependent_stuff {
 			ZSH_THEME_GIT_TEXT_CALLBACK=
 		;;
 
-		screen|xterm|xscreen)
+		screen|xterm|xscreen|vte)
 			_COLORS=(
 				black   0
 				white	255		pink	198
@@ -116,7 +117,7 @@ function set_term_dependent_stuff {
 	ZSH_THEME_PATH_STYLE=(
 		inactive_before	"`FG path; SP`$_ssh_pathinfo"
 		inactive_after	" "
-		active_before	"`FG path; FX r+; SP; SP`$_ssh_pathinfo"
+		active_before	"`FG path; FX r+; SP`$_ssh_pathinfo"
 		active_after	"`SP; SP; FX r-; CH AR; FX 0; FX b+; FG path; SP`"
 		dir_separator	"`FX b-; FG base; SP; CH ar; SP; FG blue; FX b+`"
 	)
@@ -136,7 +137,10 @@ function SP () { echo -n ' ' } # }}}
 function sane_cwd () {
 	local cwd p pt m
 
-	[[ $PWD == '/' ]] && cwd=('/') || cwd=(/ "${(s:/:)${PWD[2,-1]}}")
+	[[ $PWD == '/' ]] && cwd=('/') || {
+		cwd=${PWD:gs/ />}
+		cwd=(/ "${(s:/:)${cwd[2,-1]}}")
+	}
 
 	for pt in ${(Ok)ZSH_THEME_PATH_CHARS}; do
 		[[ $pt == '/' ]] && p=("/") || p=(/ "${(s:/:)${pt[2,-1]}}")
@@ -154,7 +158,10 @@ function sane_cwd () {
 		}
 	done
 
-	[[ ${#cwd} -gt 0 ]] && echo -n ${cwd// /$ZSH_THEME_PATH_STYLE[dir_separator]}
+	cwd=${cwd// /$ZSH_THEME_PATH_STYLE[dir_separator]}
+	cwd=${cwd//>/ }
+
+	[[ ${#cwd} -gt 0 ]] && echo -n $cwd
 } # }}}
 
 function set_title () {

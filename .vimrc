@@ -1,3 +1,4 @@
+" M
 " .vimrc
 " Author: Ádám Barancsuk <adam.barancsuk@gmail.com>
 " Source: .vimrc by Steve Losh <steve@stevelosh.com> [http://bitbucket.org/sjl/dotfiles/src/tip/vim]
@@ -40,6 +41,7 @@
 	set ttyfast
 	set undofile
 	set undoreload	 =10000
+	set exrc
 
 " }}}
 " Wildmenu completion ------------------------------------------------------------------------- {{{
@@ -115,6 +117,63 @@
 	set statusline	+=,								" ,
 	set statusline	+=)								" )
 	set statusline	+=\ (L\ %l\/%L,\ C\ %3c)		" Line/col position/count
+
+" }}}
+" Tabline ------------------------------------------------------------------------------------- {{{
+	
+	if exists("+showtabline")
+		function! MyTabLine()
+			let s = '%#TabLineBorder#'
+			let wn = ''
+			let t = tabpagenr()
+			let i = 1
+			while i <= tabpagenr('$')
+				let buflist = tabpagebuflist(i)
+				let winnr = tabpagewinnr(i)
+				let s .= '%' . i . 'T'
+				let s .= '%#TabLine' . (i == t ? 'Sel' : '') . 'Border#'
+				let s .= '%#TabLine' . (i == t ? 'Sel' : '' ).'Bg# '
+				let wn = tabpagewinnr(i,'$')
+
+				if tabpagewinnr(i,'$') > 1
+					let s .= '.'
+					let s .= (tabpagewinnr(i,'$') > 1 ? wn : '')
+				end
+
+				let bufnr = buflist[winnr - 1]
+				let file = bufname(bufnr)
+				let buftype = getbufvar(bufnr, 'buftype')
+				if buftype == 'nofile'
+					if file =~ '\/.'
+						let file = substitute(file, '.*\/\ze.', '', '')
+					endif
+				else
+					let file = fnamemodify(file, ':p:t')
+				endif
+				if file == ''
+					let file = '%#TabLine' . (i == t ? 'Sel' : '') .  'NoName#[Névtelen]'
+				endif
+				let s .= file
+				let s .= (getbufvar(buflist[winnr - 1], "&mod")?'%#TabLine' . (i == t ? 'Sel' : '') . 'Modified#*':'')
+				let s .= (i == t ? ('%#TabLineSelClose#%' . i . 'X ×%X') : '')
+				let s .= ' %#TabLine' . (i == t ? 'Sel' : '') . 'Border# '
+				let i = i + 1
+			endwhile
+			return s
+		endfunction
+		set stal=2
+		set tabline=%!MyTabLine()
+	endif
+	
+	hi TabLineSelBorder ctermfg=232 ctermbg=242
+	hi TabLineSelBg term=bold cterm=bold ctermfg=252 ctermbg=232
+	hi TabLineSelModified term=bold cterm=bold ctermfg=1 ctermbg=232
+	hi TabLineSelNoName term=bold,italic cterm=bold,italic ctermfg=252 ctermbg=232
+	hi TabLineSelClose term=NONE ctermfg=249
+	hi TabLineModified term=bold cterm=bold ctermfg=1 ctermbg=240
+	hi TabLineBorder ctermfg=240 ctermbg=242
+	hi TabLineNoName term=italic cterm=italic ctermfg=248 ctermbg=240
+	hi TabLineBg ctermfg=248 ctermbg=240
 
 " }}}
 " Searching and movement ---------------------------------------------------------------------- {{{
@@ -255,18 +314,9 @@
 		let NERDTreeMinimalUI			= 1
 		let NERDTreeDirArrows			= 1
 		let NERDTreeShowBookmarks		= 1
-		let NERDTreeIgnore = ['\~$', '.*\.pyc$', 'xapian_index', '.*.pid',  '.*\.o$', 'db.db']
 
 
 	" }}} 
-	" Org mode {{{
-
-		let g:org_agenda_files	= ['/data/documents/todo.org']
-		let g:org_plugins		= ['ShowHide', 'Navigator', 'EditStructure', 'Todo', 'Date', 'Misc']
-		let g:org_todo_keywords	= ['TODO', '|', 'DONE']
-		let g:org_debug			= 1
-
-	" }}}
 	" Zen coding {{{
 	
 		:imap <S-CR> <C-y>,
@@ -305,22 +355,16 @@
 	" GTK+-esque tab switching {{{
 
 		nmap		<C-t>		:tabnew<CR>
-		nmap		<C-S-Tab>	:tabprevious<CR>
-		nmap		<C-Tab>		:tabnext<CR>
+		nmap		[1;5D		:tabprevious<CR>
+		nmap		[1;5C		:tabnext<CR>
 		nmap		<C-w>		:q<CR>
-		map			<C-S-Tab>	:tabprevious<CR>
-		map			<C-Tab>		:tabnext<CR>
+		map			[1;5D		:tabprevious<CR>
+		map			[1;5C	:tabnext<CR>
 		map			<C-w>		:q<CR>
-		imap		<C-S-Tab>	<Esc>:tabprevious<CR>i
-		imap		<C-Tab>		<Esc>:tabnext<CR>i
+		imap		[1;5D		<Esc>:tabprevious<CR>i
+		imap		[1;5C	<Esc>:tabnext<CR>i
 		imap		<C-w>		<Esc>:q<CR>
 		imap		<C-t>		<Esc>:tabnew<CR>
-
-		nmap		<M-Right>	:tabnext<CR>
-		nmap		<M-Left>	:tabprevious<CR>
-		imap		<M-Right>	<Esc>:tabnext<CR>
-		imap		<M-Left>	<Esc>:tabprevious<CR>
-
 
 	" }}}
 
