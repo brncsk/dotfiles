@@ -1,7 +1,7 @@
 # A themeable sound indicator {{{
 
 function tmuxsound {
-	local vol=$(amixer get Master | grep % | cut -f6 -d' ' | tr -cd '[:digit:]')
+	local vol=$(amixer get Master | grep -o "[0-9]\+%" | head -1 | tr -d '%')
 	local st=$(amixer get Master | grep % | cut -f8 -d' ' | tr -d '\[\]')
 	local swn=$((1 + (vol / 34)))
 

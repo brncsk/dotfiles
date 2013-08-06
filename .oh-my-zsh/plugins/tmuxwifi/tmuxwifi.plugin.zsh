@@ -1,14 +1,16 @@
 # A themeable wifi indicator {{{
 
 function tmuxwifi {
-	integer qual=$((`iwconfig wlan0 \
+	local dev=`iw dev | grep -oP "(?<=Interface )([a-z0-9]+)"`
+	
+	integer qual=$((`iwconfig $dev \
 		| grep Quality \
 		| sed -e 's/^ \+//' \
 		| cut -f2 -d' ' \
 		| tr -dc '[:digit:]/'`.0 * 100 ))
 	local qn=$((1 + (qual / 34)))
 	local m='hi'
-	local essid=$(iwconfig wlan0 | grep ESSID | cut -f2 -d':' | tr -d '"')
+	local essid=$(iwconfig $dev | grep ESSID | cut -f2 -d':' | tr -d '"')
 	
 	if [ $qual -lt $ZSH_THEME_TMUXWIFI[hi_min] ]; then m='mid'; fi
 	if [ $qual -lt $ZSH_THEME_TMUXWIFI[mid_min] ]; then m='low'; fi
