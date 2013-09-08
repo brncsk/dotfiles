@@ -184,7 +184,7 @@ function set_title () {
 
 	[[ ${#cwd} -gt 0 ]] && t+=${cwd// / `CH aR` }
 
-	tmux rename-window $t
+	[ -n "$TMUX" ] && { tmux rename-window $t }
 }
 
 set_term_dependent_stuff;
