@@ -1,0 +1,26 @@
+#!/bin/sh
+
+USERSHELL=/usr/bin/zsh
+TMUXBIN=/usr/local/bin/tmux-2
+
+case $(tty) in
+	*tty*)
+		if [ "$(tty)" == "/dev/tty1" ]; then
+			# We are in tty1, start X.
+			sudo /usr/local/bin/start-gdm;
+		else
+			# We are in another tty, drop into the default shell.
+			exec $USERSHELL;
+		fi;;
+		# Running in a TTY, start the default shell.
+		# $USERSHELL;;
+	*pts*)
+		if [ -n "$TMUX" ]; then
+			# Running inside tmux, start the default shell.
+			exec $USERSHELL;
+		else
+			# Running in a PTS (which is probably an X terminal emulator),
+			# start tmux.
+			exec $TMUXBIN;
+		fi;;
+esac

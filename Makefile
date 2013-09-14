@@ -4,4 +4,5 @@ STOW=stow
 stow:
 	for d in bash git ssh terminfo tmux vim x zsh; do	\
 		${STOW} -t $$HOME $$d;							\
-	done
+	done;												\
+	sudo ${STOW} -t / root
