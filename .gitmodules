@@ -1,0 +1,3 @@
+[submodule "vim/.vim/bundle/todotxt"]
+	path = vim/.vim/bundle/todotxt
+	url = https://github.com/freitass/todo.txt-vim
