@@ -48,18 +48,18 @@
 		typeset -A ch
 		ch=(
 			p	'❯'		g	'∓'		# default prompt, git prompt
-			h	'⮇'		d	'⮆'		# home, data
+			h	''		d	''		# home, data
 			s	'→'		I	'│'		# separators
-			AL	'⮂'		AR	'⮀'		# \
-			Al	'⮄'		Ar	'⮅'		#  |- bubbles
-			al	'⮃'		ar	'⮁'		# /
+			AL	''		AR	''		# \
+			Al	''		Ar	''		#  |- bubbles
+			al	''		ar	''		# /
 			aL  '◀'		aR	'▶'		# path separators
 			c	'⌚'		e	'…'		# clock, ellipses
-			b   '▸'		sp	'⮊'		# battery indicator, speaker
-			sw1	'⮋'		sw2 '⮌'		# sound waves 1-2
-			sw3 '⮍'		w1	'⮎'		# sound waves 3, wifi 1
-			w2	'⮏'		w3	'⮐'		# wifi 2-3
-            pl  '▸'	    ps  '‖'     # play, pause
+			b   '▸'		sp	''		# battery indicator, speaker
+			sw1	''		sw2 ''		# sound waves 1-2
+			sw3 ''		w1	''		# sound waves 3, wifi 1
+			w2	''		w3	''		# wifi 2-3
+            pl  '▸'	    ps  '⏸'     # play, pause
 		)
 
 		echo -n $ch[$1]

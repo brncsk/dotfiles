@@ -71,19 +71,19 @@ function set_term_dependent_stuff {
 
 			_CHARS=(
 				p	'❯'		g	'∓'		# prompt		git
-				h	'⮇'		d	'⮆'		# home			data
+				h	''		d	''		# home, data
 				s	'→'		I	'│'		# separators
-				AL	'⮂'		AR	'⮀'		# \
-				Al	'⮄'		Ar	'⮅'		# | bubbles
-				al	'⮃'		ar	'⮁'		# /
+				AL	''		AR	''		# \
+				Al	''		Ar	''		#  |- bubbles
+				al	''		ar	''		# /
 				aL  '◀'		aR	'▶'
 				c	'⌚'		e	'…'		# clock			ellipses
-				b	'⭠'
+				b	''
 			)
 	
 			ZSH_THEME_GIT_PROMPT_PREFIX=`SP; FG pink; CH Al; BG pink; FG white; SP; CH b; SP;`
 			ZSH_THEME_GIT_PROMPT_SUFFIX=`FX 0; FG pink; CH Ar; FX 0`
-			ZSH_THEME_GIT_TEXT_CALLBACK=small_caps
+			ZSH_THEME_GIT_PROMPT_DIRTY='*'
 
 		;;
 	esac

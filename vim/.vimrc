@@ -303,6 +303,12 @@
 
 	" }}}
 
+	" Pastebin {{{
+
+		nnoremap <leader>p call PasteBin
+
+	" }}}
+
 	" NERD Tree {{{
 
 		nnoremap <F2> :NERDTreeToggle<CR>

@@ -99,4 +99,11 @@
 
 	alias cdd='cd /data/$1'
 
+	alias   t='todo.sh'
+	alias  ta='todo.sh add'
+	alias  tl='todo.sh list'
+	alias  tr='todo.sh del'
+
+	alias vim='nocorrect vim'
+
 # --------------------------------------------------------------------------------------------- }}}
