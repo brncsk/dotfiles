@@ -89,13 +89,14 @@ for nc in ${(@k)NAMED_COLORS}; do
 	FG[$nc]=$FG[$NAMED_COLORS[$nc]]
 	TMUX_FG[$nc]=$TMUX_FG[$NAMED_COLORS[$nc]]
 
-	k
 	BG[$nc]=$BG[$NAMED_COLORS[$nc]]
 	TMUX_BG[$nc]=$TMUX_BG[$NAMED_COLORS[$nc]]
 done
 
 function render_status_segment () {
 	if [ $# -eq 1 ]; then
+		c_fg=$THEME_DEFAULTS[default_fg]
+		c_bg=$THEME_DEFAULTS[default_bg]
 		caption=$1
 	elif [ $# -eq 2 ]; then
 		c_fg=$THEME_DEFAULTS[${1}_fg]

@@ -1,5 +1,5 @@
 function acpitemp {
-	local DEFAULT_LOW_MAX=70
+	local DEFAULT_LOW_MAX=50
 	local DEFAULT_MID_MAX=85
 
 	local low_max=${ZSH_THEME_TMUXTEMP[low_max]:-$DEFAULT_LOW_MAX}
