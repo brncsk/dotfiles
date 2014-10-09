@@ -1,8 +1,5 @@
-# A themeable clock for tmux status lines {{{
-
 function tmuxclock {
-	echo -n $ZSH_THEME_TMUXCLOCK[before]
-	echo -n `date +$ZSH_THEME_TMUXCLOCK[format]`
-	echo -n $ZSH_THEME_TMUXCLOCK[after]
+	local DEFAULT_FORMAT='%H:%M'
 
-} # }}}
+	render_status_segment "$(date +${THEME_CLOCK[format]:-$DEFAULT_FORMAT})"
+}

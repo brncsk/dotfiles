@@ -1,8 +1,11 @@
 #!/usr/bin/zsh
 
 [ -n $TMUX ] && () {
-	. ~/.zsh/tmux/loadavg/loadavg.plugin.zsh
-	. ~/.zsh/tmux/acpitemp/acpitemp.plugin.zsh
+	source ~/.zsh/tmux/presentation.lib.zsh
+	source ~/.zsh/tmux/theme.lib.zsh
+
+	. ~/.zsh/tmux/tmuxload/tmuxload.plugin.zsh
+	. ~/.zsh/tmux/tmuxtemp/tmuxtemp.plugin.zsh
 	. ~/.zsh/tmux/tmuxsound/tmuxsound.plugin.zsh
 	. ~/.zsh/tmux/tmuxwifi/tmuxwifi.plugin.zsh
 	. ~/.zsh/tmux/tmuxbattery/tmuxbattery.plugin.zsh
@@ -83,8 +86,8 @@
 		cpuhog_after	`FX b-`
 	)
 
-	typeset -Ag ZSH_THEME_ACPITEMP
-	ZSH_THEME_ACPITEMP=(
+	typeset -Ag ZSH_THEME_TMUXTEMP
+	ZSH_THEME_TMUXTEMP=(
 		low_before		`FG grey3; CH Al; BG grey3; FG white; SP`
 		low_after		`SP; FX 0; FG grey3; CH Ar; FX 0`
 
@@ -93,8 +96,6 @@
 
 		hi_before		`FG red``CH Al``BG red``FG white; SP`
 		hi_after		`SP; FX 0; FG red; CH Ar; FX 0`
-
-		
 	)
 
 	typeset -Ag ZSH_THEME_TMUXCLOCK
@@ -124,7 +125,6 @@
 		off_before		`FG grey3; CH Al; BG grey3; FG grey1; SP`
 		off_after		`SP; FX 0; FG grey3; CH Ar; FX 0`
 
-
 		hi_min		80
 		mid_min		50
 	)
@@ -146,7 +146,7 @@
 		dch_crit_before		`FG red``CH Al``BG red``FG white; SP`
 		dch_crit_after		`SP; FX 0; FG red; CH Ar; FX 0`
 
-		unknown_before		`FG grey3; CH Al; BG grey3; FG grey4; SP`
+		unknown_before		`FG grey3; CH Al; BG grey3; FG white; SP`
 		unknown_after		`SP; FX 0; FG grey3; CH Ar; FX 0`
 		
 		notpresent_before	`FG grey3; CH Al; BG grey3; FG grey4; FX i; SP`
