@@ -151,7 +151,7 @@
 					let file = fnamemodify(file, ':p:t')
 				endif
 				if file == ''
-					let file = '%#TabLine' . (i == t ? 'Sel' : '') .  'NoName#[Névtelen]'
+					let file = '%#TabLine' . (i == t ? 'Sel' : '') .  'NoName# (unsaved buffer) '
 				endif
 				let s .= file
 				let s .= (getbufvar(buflist[winnr - 1], "&mod")?'%#TabLine' . (i == t ? 'Sel' : '') . 'Modified#*':'')
