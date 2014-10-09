@@ -1,3 +1,6 @@
 [submodule "vim/.vim/bundle/todotxt"]
 	path = vim/.vim/bundle/todotxt
 	url = https://github.com/freitass/todo.txt-vim
+[submodule "vim/.vim/bundle/molokai"]
+	path = vim/.vim/bundle/molokai
+	url = https://github.com/tomasr/molokai.git
