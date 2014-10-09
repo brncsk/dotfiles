@@ -6,8 +6,8 @@ export EDITOR=vim
 export VISUAL=gedit
 export BROWSER=firefox
 
-LIB_DIR=.zsh/lib
-PLUGIN_DIR=.zsh/plugins
+LIB_DIR=~/.zsh/lib
+PLUGIN_DIR=~/.zsh/plugins
 ENABLED_PLUGINS=(archlinux git loadavg zsh-syntax-highlighting find custom-prompt)
 
 # Libraries
