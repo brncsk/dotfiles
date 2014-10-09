@@ -1,5 +1,3 @@
-# A themeable wifi indicator {{{
-
 function tmuxwifi {
 	local DEFAULT_HI_MIN=80
 	local DEFAULT_MID_MIN=50
@@ -22,9 +20,9 @@ function tmuxwifi {
 		caption="$CH[w$qn] $(printf %3d $qual)% [$essid]"
 	else
 		m='off'
-		caption="$CH[w3] (off)"
+		caption="$CH[w3] $TMUX_FX[i+](off)$TMUX_FX[i-]"
 	fi
 
-	render_status_segment "" "$THEME_WIFI[${m}_fg]" $caption
+	render_status_segment "" "$THEME_WIFI[${m}_fg]" " $caption "
 
-} # }}}
+}

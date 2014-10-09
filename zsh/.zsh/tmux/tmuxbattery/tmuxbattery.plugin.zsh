@@ -53,7 +53,5 @@ function tmuxbattery {
 	fi
 		
 	render_status_segment "$THEME_BATTERY[${bat_status}_bg]" "$THEME_BATTERY[${bat_status}_fg]" \
-		"$charging $icon $tm"
+		" $charging $icon $tm "
 }
-
-tmuxbattery

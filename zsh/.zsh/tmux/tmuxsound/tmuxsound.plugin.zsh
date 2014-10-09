@@ -1,55 +1,16 @@
-# A themeable sound indicator {{{
-
 function tmuxsound {
-	local vol=$(amixer get Master | grep -o "[0-9]\+%" | head -1 | tr -d '%')
-	local st=$(amixer get Master | grep % | cut -f8 -d' ' | tr -d '\[\]')
+	amixer=$(amixer get Master)
+	local vol=$(echo $amixer | grep -o "[0-9]\+%" | head -1 | tr -d '%')
+	local st=$(echo $amixer | grep % | cut -f8 -d' ' | tr -d '\[\]')
 	local swn=$((1 + (vol / 34)))
 
-	local mpris="$(~/.oh-my-zsh/plugins/tmuxsound/mpris2.py)"
-
-
-	if [[ $mpris == '' ]]; then mpris=$(mocp -i); fi
-
-    if [[ $mpris != '' ]]; then
-        local artist="$(echo $mpris | grep Artist | cut -f2 -d':')"
-        local title="$(echo $mpris | grep SongTitle | cut -f2 -d':')"
-        local plst="$(echo $mpris | grep State | cut -f2 -d':')"
-    fi
-
-	echo -n $ZSH_THEME_TMUXSOUND[before]
-
 	if [[ $st == 'on' ]]; then
-		echo -n `FG sblue$((vol / 10))`
-		echo -n `CH sp; CH sw$swn;`' '
-		echo -n ' '
-		printf %3d $vol
-        echo -n %
+		color="sblue$((vol / 10))"
+		caption="$CH[sp]$CH[sw$swn]  $(printf %3d $vol)%"
 	else
-		echo -n `FG sblue0`
-		echo -n `CH sp;`'×     -'
+		color='grey4'
+		caption="$CH[sp]× $TMUX_FX[i+](on mute)$TMUX_FX[i-]"
 	fi
-	if [[ $mpris != '' ]]; then
-		echo -n `FG grey4`
-		if [[ $plst =~ 'PLAY' ]]; then
-			plsym=`CH aR`
-		else
-			plsym=`CH ps`
-		fi
-		pltxt="$artist –$title"
-
-		if [[ ${#pltxt} > 25 ]]; then
-			if [[ ${#artist} -gt 9 ]]; then
-				artist=${artist:1:8}`CH e`
-			fi
-			if [[ ${#title} -gt 13 ]]; then
-				title=${title:1:13}`CH e`
-			fi
-			pltxt="$artist – $title"
-		fi
-
-		echo -n " `CH I` $plsym $pltxt"
-	fi
-
-	echo -n $ZSH_THEME_TMUXSOUND[after]
-
-} # }}}
+	
+	render_status_segment "" $color " $caption "
+}

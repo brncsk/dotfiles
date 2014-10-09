@@ -1,5 +1,3 @@
-# Print current load average {{{
-
 cpu_count=$(cat /proc/cpuinfo | grep processor | wc -l)
 
 function loadavg {
@@ -21,4 +19,4 @@ function loadavg {
 	fi
 
 	render_status_segment $severity $load
-} # }}}
+}
