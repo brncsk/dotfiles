@@ -6,7 +6,7 @@
 " Script resources {{{
 	let s:symbols = {
 		\ 'compatible': {
-			\   'dividers': [ '', [0x2502], '', [0x2502] ]
+			\   'dividers': [ [0x25b6], [0x276f], [0x25c0], [0x276e]  ]
 			\ , 'symbols' : {
 				\   'branch': 'BR:'
 				\ , 'ro'    : 'RO'
@@ -15,20 +15,20 @@
 			\ }
 		\ },
 		\ 'unicode': {
-			\   'dividers': [ [0x25b6], [0x276f], [0x25c0], [0x276e]  ]
+			\   'dividers': [ [0xe9d0], [0xe9d1], [0xe9d2], [0xe9d3] ]
 			\ , 'symbols' : {
-				\   'branch'  : [0x26a1]
+				\   'branch'  : [0xe9ed]
 				\ , 'ro'      : [0x2613]
 				\ , 'ft'      : [0x2691]
 				\ , 'line'    : [0x204b]
 			\ },
 		\ },
 		\ 'fancy': {
-			\   'dividers': [ [0x2b80], [0x2b81], [0x2b82], [0x2b83] ]
+			\   'dividers': [ [0xe9d5], [0x2502], [0xe9d4], [0x2502] ]
 			\ , 'symbols' : {
-				\   'branch'  : [0x2b60]
-				\ , 'ro'      : [0x2b64]
-				\ , 'ft'      : [0x2b62, 0x2b63]
+				\   'branch'  : [0xe9ed]
+				\ , 'ro'      : [0xe9f1]
+				\ , 'ft'      : [0xe9ef, 0xe9f0]
 				\ , 'line'    : [0x2b61]
 			\ }
 		\ }
