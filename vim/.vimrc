@@ -325,7 +325,7 @@
 	" }}} 
 	" Zen coding {{{
 	
-		:imap <S-CR> <C-y>,
+		:inoremap <C-Tab> <C-y>,
 
 	" }}}
 	" Scratch pad {{{
@@ -374,17 +374,18 @@
 
 	" }}}
 
-	" Python
-
-		if !exists("autocommands_loaded")
-			let autocommands_loaded = 1
-			autocmd BufRead,BufNewFile,FileReadPost *.py source ~/.vim/python.vimrc
-		endif
-
 	" Vala
 
 		autocmd BufRead *.vala,*.vapi set efm=%f:%l.%c-%[%^:]%#:\ %t%[%^:]%#:\ %m
 		au BufRead,BufNewFile *.vala,*.vapi setfiletype vala
+
+	" GAMS
+	
+		au BufRead,BufNewFile *.gms setfiletype gams
+
+	" MapServer
+
+		au BufRead,BufNewFile *.map setfiletype map
 
 	" NOOOOO
 		nnoremap	:W			:w

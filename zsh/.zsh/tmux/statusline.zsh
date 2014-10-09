@@ -1,12 +1,12 @@
 #!/usr/bin/zsh
 
 [ -n $TMUX ] && () {
-	. ~/.oh-my-zsh/plugins/loadavg/loadavg.plugin.zsh
-	. ~/.oh-my-zsh/plugins/acpitemp/acpitemp.plugin.zsh
-	. ~/.oh-my-zsh/plugins/tmuxsound/tmuxsound.plugin.zsh
-	. ~/.oh-my-zsh/plugins/tmuxwifi/tmuxwifi.plugin.zsh
-	. ~/.oh-my-zsh/plugins/tmuxbattery/tmuxbattery.plugin.zsh
-	. ~/.oh-my-zsh/plugins/tmuxclock/tmuxclock.plugin.zsh
+	. ~/.zsh/tmux/loadavg/loadavg.plugin.zsh
+	. ~/.zsh/tmux/acpitemp/acpitemp.plugin.zsh
+	. ~/.zsh/tmux/tmuxsound/tmuxsound.plugin.zsh
+	. ~/.zsh/tmux/tmuxwifi/tmuxwifi.plugin.zsh
+	. ~/.zsh/tmux/tmuxbattery/tmuxbattery.plugin.zsh
+	. ~/.zsh/tmux/tmuxclock/tmuxclock.plugin.zsh
 
 	typeset -A _COLORS
 	_COLORS=(
@@ -40,6 +40,7 @@
 			'b+'	'bold'
 			'b-'	'nobold'
 			'0'		'default'
+			'i'		'italics'
 		)
 
 		echo -n '#['$fx[$1]']'
@@ -55,7 +56,8 @@
 			al	''		ar	''		# /
 			aL  '◀'		aR	'▶'		# path separators
 			c	'⌚'		e	'…'		# clock, ellipses
-			b   '▸'		sp	''		# battery indicator, speaker
+			bc	'▸'		bd	'◂'		# battery charging/discharging
+			sp	''					# battery indicator, speaker
 			sw1	''		sw2 ''		# sound waves 1-2
 			sw3 ''		w1	''		# sound waves 3, wifi 1
 			w2	''		w3	''		# wifi 2-3
@@ -83,25 +85,29 @@
 
 	typeset -Ag ZSH_THEME_ACPITEMP
 	ZSH_THEME_ACPITEMP=(
-		ok_before		`FG grey3; CH Al; BG grey3; FG white; SP`
-		ok_after		`SP; FX 0; FG grey3; CH Ar; FX 0`
+		low_before		`FG grey3; CH Al; BG grey3; FG white; SP`
+		low_after		`SP; FX 0; FG grey3; CH Ar; FX 0`
 
-		critical_before	`FG red``CH Al``BG red``FG white; SP`
-		critical_after	`SP; FX 0; FG red; CH Ar; FX 0`
+		mid_before		`FG yellow; CH Al; BG yellow; FG black; SP`
+		mid_after		`SP; FX 0; FG yellow; CH Ar FX 0`
+
+		hi_before		`FG red``CH Al``BG red``FG white; SP`
+		hi_after		`SP; FX 0; FG red; CH Ar; FX 0`
+
+		
 	)
 
 	typeset -Ag ZSH_THEME_TMUXCLOCK
 	ZSH_THEME_TMUXCLOCK=(
-		before		`FG grey3; CH Al; BG grey3; FG white; SP`
+		before		`FG grey3; CH Al; BG grey3; FG white; FX b+; SP`
 		after		`SP; FX 0; FG grey3; CH Ar; FX 0`
-		format		"%Y-%m-%d `CH c` %H:%M" 
+		format		"%Y. %B %d. `CH c` %H:%M" 
 	)
 
 	typeset -Ag ZSH_THEME_TMUXSOUND
 	ZSH_THEME_TMUXSOUND=(
 		before		`FG grey3; CH Al; BG grey3; FG white; SP`
 		after		`SP; FX 0; FG grey3; CH Ar; FX 0`
-		format		"%Y-%m-%d `CH c` %H:%M" 
 	)
 
 	typeset -Ag ZSH_THEME_TMUXWIFI
@@ -142,6 +148,9 @@
 
 		unknown_before		`FG grey3; CH Al; BG grey3; FG grey4; SP`
 		unknown_after		`SP; FX 0; FG grey3; CH Ar; FX 0`
+		
+		notpresent_before	`FG grey3; CH Al; BG grey3; FG grey4; FX i; SP`
+		notpresent_after	`SP; FX 0; FG grey3; CH Ar; FX 0`
 
 		ok_min				60
 		warn_min			20

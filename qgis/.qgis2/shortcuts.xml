@@ -1,0 +1,9 @@
+<!DOCTYPE shortcuts>
+<qgsshortcuts version="1.0" locale="en_US">
+    <act shortcut="P" name="Add Feature"/>
+    <act shortcut="A" name="Node Tool"/>
+    <act shortcut="É" name="Save Layer Edits"/>
+    <act shortcut="V" name="Select Single Feature"/>
+    <act shortcut="C" name="Split Features"/>
+    <act shortcut="E" name="Toggle Editing"/>
+</qgsshortcuts>

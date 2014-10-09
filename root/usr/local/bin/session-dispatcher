@@ -7,6 +7,8 @@ case $(tty) in
 	*tty*)
 		if [ "$(tty)" == "/dev/tty1" ]; then
 			# We are in tty1, start X.
+			# But first switch off the damn fan.
+			i8kfan 0 0;
 			sudo /usr/local/bin/start-gdm;
 		else
 			# We are in another tty, drop into the default shell.
@@ -19,7 +21,7 @@ case $(tty) in
 			# Running inside tmux, start the default shell.
 			exec $USERSHELL;
 		else
-			# Running in a PTS (which is probably an X terminal emulator),
+			# Running in a PTS (which is probably an X terminal emulator or kmscon),
 			# start tmux.
 			exec $TMUXBIN;
 		fi;;
