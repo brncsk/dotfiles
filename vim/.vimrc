@@ -123,7 +123,7 @@
 	
 	if exists("+showtabline")
 		function! MyTabLine()
-			let s = '%#TabLineBorder#'
+			let s = '%#TabLineBorder#     '
 			let wn = ''
 			let t = tabpagenr()
 			let i = 1
@@ -165,11 +165,11 @@
 		set tabline=%!MyTabLine()
 	endif
 	
-	hi TabLineSelBorder ctermfg=232 ctermbg=242
-	hi TabLineSelBg term=bold cterm=bold ctermfg=252 ctermbg=232
-	hi TabLineSelModified term=bold cterm=bold ctermfg=1 ctermbg=232
-	hi TabLineSelNoName term=bold,italic cterm=bold,italic ctermfg=252 ctermbg=232
-	hi TabLineSelClose term=NONE ctermfg=249
+	hi TabLineSelBorder ctermfg=234 ctermbg=242
+	hi TabLineSelBg term=bold cterm=bold ctermfg=252 ctermbg=234
+	hi TabLineSelModified term=bold cterm=bold ctermfg=1 ctermbg=234
+	hi TabLineSelNoName term=bold,italic cterm=bold,italic ctermfg=252 ctermbg=234
+	hi TabLineSelClose term=NONE ctermbg=234 ctermfg=249
 	hi TabLineModified term=bold cterm=bold ctermfg=1 ctermbg=240
 	hi TabLineBorder ctermfg=240 ctermbg=242
 	hi TabLineNoName term=italic cterm=italic ctermfg=248 ctermbg=240
