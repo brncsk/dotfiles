@@ -22,7 +22,7 @@ THEME_PROMPT=(
 
 	dir_sep			"$FX[b-]$FG[grey4] $CH[ar] $FG[blue]$FX[b+]"
 	suffix			"$FG[grey4] $CH[ar] $FX[0]"
-	busy_indicator	"$FG[grey4]$CH[e]$FX[0]"
+	comp_busy		"$FG[grey4]$CH[e]$FX[0]"
 
 	git_fg	'grey4'
 	git_bg	'grey1'

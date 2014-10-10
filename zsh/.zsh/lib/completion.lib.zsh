@@ -1,3 +1,4 @@
+# Source: oh-my-zsh
 # fixme - the load process here seems a bit bizarre
 
 unsetopt menu_complete   # do not autoselect the first completion entry
@@ -39,7 +40,7 @@ zstyle ':completion::complete:*' cache-path ~/.zsh/cache/
 zstyle '*' single-ignored show
 
 expand-or-complete-with-dots() {
-	echo -n $ZSH_THEME_COMPLETION_WAITING_MSG
+	echo -n $THEME_PROMPT[comp_busy]
 	zle expand-or-complete
 	zle redisplay
 }

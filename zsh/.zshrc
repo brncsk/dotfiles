@@ -3,7 +3,7 @@ export NAME="Ádám Barancsuk"
 export EMAIL="adam barancsuk gmail com"
 
 export EDITOR=vim
-export VISUAL=gedit
+export VISUAL=vim
 export BROWSER=firefox
 
 LIB_DIR=~/.zsh/lib
