@@ -1,4 +1,4 @@
-function acpitemp {
+function status_segment_acpitemp {
 	local DEFAULT_LOW_MAX=70
 	local DEFAULT_MID_MAX=85
 

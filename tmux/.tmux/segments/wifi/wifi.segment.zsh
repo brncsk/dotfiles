@@ -1,4 +1,4 @@
-function tmuxwifi {
+function status_segment_wifi {
 	local DEFAULT_HI_MIN=80
 	local DEFAULT_MID_MIN=50
 

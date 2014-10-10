@@ -1,6 +1,6 @@
 cpu_count=$(cat /proc/cpuinfo | grep processor | wc -l)
 
-function loadavg {
+function status_segment_loadavg {
 	local DEFAULT_LOW_MAX=.5
 	local DEFAULT_MID_MAX=.75
 

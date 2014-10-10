@@ -1,4 +1,4 @@
-function tmuxbattery {
+function status_segment_battery {
 	acpi=$(acpi -b)
 	local ch=$(echo $acpi | cut -f2 -d',' | tr -cd '[:digit:]')
 	local st=$(echo $acpi | cut -f3 -d' ' | tr -d ',' | tr '[A-Z]' '[a-z]')

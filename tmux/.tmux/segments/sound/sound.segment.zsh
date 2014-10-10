@@ -1,4 +1,4 @@
-function tmuxsound {
+function status_segment_sound {
 	amixer=$(amixer get Master)
 	local vol=$(echo $amixer | grep -o "[0-9]\+%" | head -1 | tr -d '%')
 	local st=$(echo $amixer | grep % | cut -f8 -d' ' | tr -d '\[\]')
