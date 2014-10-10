@@ -8,16 +8,16 @@ export BROWSER=firefox
 
 LIB_DIR=~/.zsh/lib
 PLUGIN_DIR=~/.zsh/plugins
-ENABLED_PLUGINS=(archlinux git loadavg zsh-syntax-highlighting find custom-prompt)
+ENABLED_PLUGINS=(archlinux zsh-syntax-highlighting custom-prompt)
+
+# Initialize autocompletion
+autoload -U compinit
+compinit -i
 
 # Libraries
 for lib in ${LIB_DIR}/*.lib.zsh; do
 	source $lib
 done
-
-# Then compinit
-autoload -U compinit
-compinit -i
 
 # Then plugins
 for plugin in $ENABLED_PLUGINS; do

@@ -77,6 +77,11 @@
 		}
 	}
 
+# Find in files
+	ff () {
+		(find ${2:=.} -print0 | xargs -0 grep -i $1 ) 2>/dev/null
+	}
+
 # Misc.
 	export PAGER=less
 	export LC_CTYPE=$LANG
