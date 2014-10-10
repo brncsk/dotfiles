@@ -1,6 +1,6 @@
 # Guess terminal type (this clearly does not cover all possible cases but it works for me)
 # (Not in use atm.)
-function term_type {
+function term_type () {
 	([[ `tty` == *tty* ]] && echo 'tty') || \
 	([[ `tty` == *pts* && $TERM == *screen* ]] && echo 'xscreen') || \
 	([[ $TERM == *screen* ]] && echo 'screen') || \
@@ -40,10 +40,25 @@ function fancy_wd () {
 	[[ ${#cwd} -gt 0 ]] && echo -n $cwd
 }
 
+# Displays git repository information.
+function git_prompt_info () {
+	DEFAULT_DIRTY_CHAR='*'
+	DEFAULT_DIRTY_FG='red'
+
+	ref=$(git symbolic-ref HEAD 2>/dev/null) || return
+	sha=$(git rev-parse --short HEAD 2>/dev/null)
+	[[ -n $(git status -s --ignore-submodules=dirty 2>/dev/null) ]] && \
+		dirty=" $FG[${THEME_PROMPT[git_dirty_fg]:-$DEFAULT_DIRTY_FG}]${THEME_PROMPT[git_dirty_ch]:-$DEFAULT_DIRTY_CHAR}"
+
+	render_status_segment "$THEME_PROMPT[git_bg]" "$THEME_PROMPT[git_fg]" \
+		"$CH[b]  ${ref#refs/heads/}@$sha$dirty"
+	echo;
+}
+
 local return_code="%(?..%?)"
 
 ZLE_RPROMPT_INDENT=0
 setopt PROMPT_SUBST
 
 PS1='$(fancy_wd)'$THEME_PROMPT[suffix]
-RPS1="$return_code"'$(git_prompt_info)'
+RPS1='$(git_prompt_info) '

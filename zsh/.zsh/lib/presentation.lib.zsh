@@ -9,6 +9,7 @@ CH=(
 	h	''					# Home
 	d	''					# Data
 
+	b	''					# Branch indicator
 	e	'…'					# Ellipses
 	re	'↵'					# Return value indicator
 	s	'→'		I	'│'		# Various separators

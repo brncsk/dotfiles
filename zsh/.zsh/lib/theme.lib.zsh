@@ -24,8 +24,9 @@ THEME_PROMPT=(
 	suffix			"$FG[grey4] $CH[ar] $FX[0]"
 	busy_indicator	"$FG[grey4]$CH[e]$FX[0]"
 
-	git_fg	'white'
-	git_bg	'pink'
+	git_fg	'grey4'
+	git_bg	'grey1'
+	git_dirty_ch '*'
 )
 		
 typeset -Ag THEME_PROMPT_PATH
