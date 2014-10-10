@@ -9,7 +9,7 @@ function tmuxsound {
 		caption="$CH[sp]$CH[sw$swn]  $(printf %3d $vol)%"
 	else
 		color='grey4'
-		caption="$CH[sp]× $TMUX_FX[i+](on mute)$TMUX_FX[i-]"
+		caption="$CH[sp]× $FX[i+](on mute)$FX[i-]"
 	fi
 	
 	render_status_segment "" $color " $caption "

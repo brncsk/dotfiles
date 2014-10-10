@@ -2,8 +2,8 @@ function acpitemp {
 	local DEFAULT_LOW_MAX=70
 	local DEFAULT_MID_MAX=85
 
-	local low_max=${ZSH_THEME_TMUXTEMP[low_max]:-$DEFAULT_LOW_MAX}
-	local mid_max=${ZSH_THEME_TMUXTEMP[mid_max]:-$DEFAULT_MID_MAX}
+	local low_max=${THEME_TEMP[low_max]:-$DEFAULT_LOW_MAX}
+	local mid_max=${THEME_TEMP[mid_max]:-$DEFAULT_MID_MAX}
 
 	tempdata=`acpi -t | sed -e 's/\(Thermal 0: \|degrees C\|,\)//g'`
 	local tempstat=`echo $tempdata | cut -d' ' -f1`

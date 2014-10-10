@@ -24,5 +24,4 @@ function tmuxwifi {
 	fi
 
 	render_status_segment "" "$THEME_WIFI[${m}_fg]" " $caption "
-
 }
