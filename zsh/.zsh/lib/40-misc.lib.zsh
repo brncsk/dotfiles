@@ -6,6 +6,9 @@
 	zle -N edit-command-line
 	bindkey '\C-e' edit-command-line
 
+# Syntax highlighting (installed from AUR)
+	source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
 # Set up directory stack and provide a utility function
 # for creating than switching to a new directory
 	setopt cdablevars
