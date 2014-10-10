@@ -122,30 +122,6 @@
 	syntax on
 
 " }}}
-" Status line --------------------------------------------------------------------------------- {{{
-
-	augroup ft_statuslinecolor
-		au!
-		au InsertEnter * hi StatusLine ctermfg=237 guifg=#5D5C54
-		au InsertLeave * hi StatusLine ctermfg=235 guifg=#3B3A32
-	augroup END
-
-	hi StatusLine ctermfg=235 guifg=#3B3A32
-
-	set statusline	 =%f							" Path
-	set statusline	+=%m							" Modified flag
-	set statusline	+=%r							" Readonly flag
-	set statusline	+=%w							" Preview window flag
-	set statusline	+=\ %=							" --- Right align
-	set statusline	+=(								" (
-	set statusline	+=%{&ff}                        " Format (unix/DOS)
-	set statusline	+=,								" ,
-	set statusline	+=%{strlen(&fenc)?&fenc:&enc}   " Encoding (utf-8)
-	set statusline	+=,								" ,
-	set statusline	+=)								" )
-	set statusline	+=\ (L\ %l\/%L,\ C\ %3c)		" Line/col position/count
-
-" }}}
 " Tabline ------------------------------------------------------------------------------------- {{{
 	
 	if exists("+showtabline")
