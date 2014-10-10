@@ -1,10 +1,13 @@
-" M
 " .vimrc
 " Author: Ádám Barancsuk <adam.barancsuk@gmail.com>
 " Source: .vimrc by Steve Losh <steve@stevelosh.com> [http://bitbucket.org/sjl/dotfiles/src/tip/vim]
 
 " Preamble ------------------------------------------------------------------------------------ {{{
 
+	"let &t_8f="\e[38:2:%ld:%ld:%ldm"
+	"let &t_8b="\e[48:2:%ld:%ld:%ldm"
+	"	set guicolors
+	
 	let g:Powerline_symbols="fancy"
 	call pathogen#infect()
 	filetype plugin indent on
@@ -361,16 +364,11 @@
 	" GTK+-esque tab switching {{{
 
 		nmap		<C-t>		:tabnew<CR>
-		nmap		[1;5D		:tabprevious<CR>
-		nmap		[1;5C		:tabnext<CR>
-		nmap		<C-w>		:q<CR>
-		map			[1;5D		:tabprevious<CR>
-		map			[1;5C	:tabnext<CR>
-		map			<C-w>		:q<CR>
-		imap		[1;5D		<Esc>:tabprevious<CR>i
-		imap		[1;5C	<Esc>:tabnext<CR>i
-		imap		<C-w>		<Esc>:q<CR>
+		nmap		<ESC>{g		gT
+		nmap		<ESC>{h		gt
 		imap		<C-t>		<Esc>:tabnew<CR>
+		imap		<ESC>{g		<ESC>gTi
+		imap		<ESC>{h		<ESC>gti
 
 	" }}}
 
