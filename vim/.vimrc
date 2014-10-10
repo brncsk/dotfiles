@@ -16,7 +16,7 @@
 	set rtp +=~/.vim/bundle/Vundle.vim
 	call vundle#begin()
 
-		Plugin 'gmarik/vundle'
+		Plugin 'gmarik/Vundle.vim'
 
 		Plugin 'tomasr/molokai'
 
