@@ -4,14 +4,38 @@
 
 " Preamble ------------------------------------------------------------------------------------ {{{
 
+	" TODO: enable this as soon as the background color erase bug is gone from 24-bit color enabled VTE
 	"let &t_8f="\e[38:2:%ld:%ld:%ldm"
 	"let &t_8b="\e[48:2:%ld:%ld:%ldm"
 	"	set guicolors
-	
+
 	let g:Powerline_symbols="fancy"
-	call pathogen#infect()
 	filetype plugin indent on
 	set nocompatible
+
+	set rtp +=~/.vim/bundle/Vundle.vim
+	call vundle#begin()
+
+		Plugin 'gmarik/vundle'
+
+		Plugin 'tomasr/molokai'
+
+		Plugin 'tikhomirov/vim-glsl', { 'name': 'glsl' }
+		Plugin 'calvinchengx/vim-mapserver', { 'name': 'mapserver'}
+		Plugin 'tkztmk/vim-vala', { 'name': 'vala' }
+		Plugin 'fs111/pydoc.vim', { 'name': 'pydoc' }
+
+		"Plugin 'taglist'
+		Plugin 'scrooloose/nerdtree'
+		Plugin 'brncsk/vim-powerline', { 'name': 'powerline' }
+
+		"Plugin 'txtfmt'
+		Plugin 'mattn/emmet-vim', { 'name': 'emmet' }
+		Plugin 'tpope/vim-fugitive', { 'name': 'fugitive' }
+		Plugin 'edsono/vim-matchit', { 'name': 'matchit' }
+		Plugin 'mtth/scratch.vim', { 'name': 'scratch' }
+
+	call vundle#end()
 
 " }}}
 " Basic options ------------------------------------------------------------------------------- {{{

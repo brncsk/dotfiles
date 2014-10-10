@@ -5,6 +5,8 @@ vim/.vim/tmp/swap/*
 !vim/.vim/tmp/swap/.gitignore
 vim/.vim/tmp/undo/*
 !vim/.vim/tmp/undo/.gitignore
+vim/.vim/bundle/*
+!vim/.vim/bundle/Vundle.vim/*
 vim/.vim/.VimballRecord
 vim/.vim/.netrwhist
 zsh/.zsh/cache/*

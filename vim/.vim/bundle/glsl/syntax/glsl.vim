@@ -1,265 +1,656 @@
-" Vim syntax file the OpenGL Shading Language
-" Language:     GLSL
-" Author:       Nathan Cournia <nathan@cournia.com>
-" Date:         June 30, 2004
-" File Types:   .frag .vert .glsl .fp .vp
-" Version:      1.10.00
-" Notes:        Adapted from c.vim - Bram Moolenaar <bram.vim.org>
-"               Adapted from cg.vim - Kevin Bjorke <kbjorke@nvidia.com>
+" Language: OpenGL Shading Language
+" Maintainer: Sergey Tikhomirov <sergey@tikhomirov.io>
 
-" For version 5.x: Clear all syntax items
-" For version 6.x: Quit when a syntax file was already loaded
-if version < 600
-  syntax clear
-elseif exists("b:current_syntax")
+if exists("b:current_syntax") && b:current_syntax == "glsl"
   finish
 endif
 
-" a bunch of useful keywords
-syn keyword         glslConditional     if else
-syn keyword         glslStatement       break return continue discard
-syn keyword         glslRepeat          while for do
-syn keyword         glslTodo            contained TODO FIXME XXX
+" Statements
+syn keyword glslConditional if else
+syn keyword glslRepeat      for while do
+syn keyword glslStatement   discard return break continue
 
-" glslCommentGroup allows adding matches for special things in comments
-syn cluster         glslCommentGroup    contains=glslTodo
+" Comments
+syn keyword glslTodo     contained TODO FIXME XXX
+syn region  glslCommentL start="//" skip="\\$" end="$" keepend contains=glslTodo,@Spell
+syn region  glslComment  matchgroup=glslCommentStart start="/\*" end="\*/" extend contains=glslTodo,@Spell
 
-"catch errors caused by wrong parenthesis and brackets
-syn cluster         glslParenGroup      contains=glslParenError,glslIncluded,glslSpecial,glslCommentSkip,glslCommentString,glslComment2String,@glslCommentGroup,glslCommentStartError,glslUserCont,glslUserLabel,glslBitField,glslCommentSkip,glslOctalZero,glslCppOut,glslCppOut2,glslCppSkip,glslFormat,glslNumber,glslFloat,glslOctal,glslOctalError,glslNumbersCom
-if exists("c_no_bracket_error")
-  syn region        glslParen           transparent start='(' end=')' contains=ALLBUT,@glslParenGroup,glslCppParen,glslCppString
-  " glslCppParen: same as glslParen but ends at end-of-line; used in glslDefine
-  syn region        glslCppParen        transparent start='(' skip='\\$' excludenl end=')' end='$' contained contains=ALLBUT,@glslParenGroup,glslParen,glslString
-  syn match         glslParenError      display ")"
-  syn match         glslErrInParen      display contained "[{}]"
-else
-  syn region        glslParen           transparent start='(' end=')' contains=ALLBUT,@glslParenGroup,glslCppParen,glslErrInBracket,glslCppBracket,glslCppString
-  " glslCppParen: same as glslParen but ends at end-of-line; used in glslDefine
-  syn region        glslCppParen        transparent start='(' skip='\\$' excludenl end=')' end='$' contained contains=ALLBUT,@glslParenGroup,glslErrInBracket,glslParen,glslBracket,glslString
-  syn match         glslParenError      display "[\])]"
-  syn match         glslErrInParen      display contained "[\]{}]"
-  syn region        glslBracket         transparent start='\[' end=']' contains=ALLBUT,@glslParenGroup,glslErrInParen,glslCppParen,glslCppBracket,glslCppString
-  " glslCppBracket: same as glslParen but ends at end-of-line; used in glslDefine
-  syn region        glslCppBracket      transparent start='\[' skip='\\$' excludenl end=']' end='$' contained contains=ALLBUT,@glslParenGroup,glslErrInParen,glslParen,glslBracket,glslString
-  syn match         glslErrInBracket    display contained "[);{}]"
+" Preprocessor
+syn region  glslPreCondit       start="^\s*#\s*\(if\|ifdef\|ifndef\|else\|elif\|endif\)" skip="\\$" end="$" keepend
+syn region  glslDefine          start="^\s*#\s*\(define\|undef\)" skip="\\$" end="$" keepend
+syn keyword glslTokenConcat     ##
+syn keyword glslPredefinedMacro __LINE__ __FILE__ __VERSION__ GL_ES
+syn region  glslPreProc         start="^\s*#\s*\(error\|pragma\|extension\|version\|line\)" skip="\\$" end="$" keepend
+
+" Boolean Constants
+syn keyword glslBoolean true false
+
+" Integer Numbers
+syn match glslDecimalInt display "\(0\|[1-9]\d*\)"
+syn match glslOctalInt   display "0\o\+"
+syn match glslHexInt     display "0[xX]\x\+"
+
+" Float Numbers
+syn match glslFloat display "\d\+\.\([eE][+-]\=\d\+\)\="
+syn match glslFloat display "\.\d\+\([eE][+-]\=\d\+\)\="
+syn match glslFloat display "\d\+[eE][+-]\=\d\+"
+syn match glslFloat display "\d\+\.\d\+\([eE][+-]\=\d\+\)\="
+
+" Swizzles
+syn match glslSwizzle display /\.[xyzw]\{1,4\}\>/
+syn match glslSwizzle display /\.[rgba]\{1,4\}\>/
+syn match glslSwizzle display /\.[stpq]\{1,4\}\>/
+
+" Structure
+syn keyword   glslStructure   struct
+
+" This prevents numbers at ends of identifies from being highlighted as numbers
+syn match glslIdentifier display "\I\i*"
+
+" Types
+syn keyword glslType atomic_uint
+syn keyword glslType bool
+syn keyword glslType bvec2
+syn keyword glslType bvec3
+syn keyword glslType bvec4
+syn keyword glslType dmat2
+syn keyword glslType dmat2x2
+syn keyword glslType dmat2x3
+syn keyword glslType dmat2x4
+syn keyword glslType dmat3
+syn keyword glslType dmat3x2
+syn keyword glslType dmat3x3
+syn keyword glslType dmat3x4
+syn keyword glslType dmat4
+syn keyword glslType dmat4x2
+syn keyword glslType dmat4x3
+syn keyword glslType dmat4x4
+syn keyword glslType double
+syn keyword glslType dvec2
+syn keyword glslType dvec3
+syn keyword glslType dvec4
+syn keyword glslType float
+syn keyword glslType iimage1D
+syn keyword glslType iimage1DArray
+syn keyword glslType iimage2D
+syn keyword glslType iimage2DArray
+syn keyword glslType iimage2DMS
+syn keyword glslType iimage2DMSArray
+syn keyword glslType iimage2DRect
+syn keyword glslType iimage3D
+syn keyword glslType iimageBuffer
+syn keyword glslType iimageCube
+syn keyword glslType iimageCubeArray
+syn keyword glslType image1D
+syn keyword glslType image1DArray
+syn keyword glslType image2D
+syn keyword glslType image2DArray
+syn keyword glslType image2DMS
+syn keyword glslType image2DMSArray
+syn keyword glslType image2DRect
+syn keyword glslType image3D
+syn keyword glslType imageBuffer
+syn keyword glslType imageCube
+syn keyword glslType imageCubeArray
+syn keyword glslType int
+syn keyword glslType isampler1D
+syn keyword glslType isampler1DArray
+syn keyword glslType isampler2D
+syn keyword glslType isampler2DArray
+syn keyword glslType isampler2DMS
+syn keyword glslType isampler2DMSArray
+syn keyword glslType isampler2DRect
+syn keyword glslType isampler3D
+syn keyword glslType isamplerBuffer
+syn keyword glslType isamplerCube
+syn keyword glslType isamplerCubeArray
+syn keyword glslType ivec2
+syn keyword glslType ivec3
+syn keyword glslType ivec4
+syn keyword glslType mat2
+syn keyword glslType mat2x2
+syn keyword glslType mat2x3
+syn keyword glslType mat2x4
+syn keyword glslType mat3
+syn keyword glslType mat3x2
+syn keyword glslType mat3x3
+syn keyword glslType mat3x4
+syn keyword glslType mat4
+syn keyword glslType mat4x2
+syn keyword glslType mat4x3
+syn keyword glslType mat4x4
+syn keyword glslType sampler1D
+syn keyword glslType sampler1DArray
+syn keyword glslType sampler1DArrayShadow
+syn keyword glslType sampler1DShadow
+syn keyword glslType sampler2D
+syn keyword glslType sampler2DArray
+syn keyword glslType sampler2DArrayShadow
+syn keyword glslType sampler2DMS
+syn keyword glslType sampler2DMSArray
+syn keyword glslType sampler2DRect
+syn keyword glslType sampler2DRectShadow
+syn keyword glslType sampler2DShadow
+syn keyword glslType sampler3D
+syn keyword glslType samplerBuffer
+syn keyword glslType samplerCube
+syn keyword glslType samplerCubeArray
+syn keyword glslType samplerCubeArrayShadow
+syn keyword glslType samplerCubeShadow
+syn keyword glslType uimage1D
+syn keyword glslType uimage1DArray
+syn keyword glslType uimage2D
+syn keyword glslType uimage2DArray
+syn keyword glslType uimage2DMS
+syn keyword glslType uimage2DMSArray
+syn keyword glslType uimage2DRect
+syn keyword glslType uimage3D
+syn keyword glslType uimageBuffer
+syn keyword glslType uimageCube
+syn keyword glslType uimageCubeArray
+syn keyword glslType uint
+syn keyword glslType usampler1D
+syn keyword glslType usampler1DArray
+syn keyword glslType usampler2D
+syn keyword glslType usampler2DArray
+syn keyword glslType usampler2DMS
+syn keyword glslType usampler2DMSArray
+syn keyword glslType usampler2DRect
+syn keyword glslType usampler3D
+syn keyword glslType usamplerBuffer
+syn keyword glslType usamplerCube
+syn keyword glslType usamplerCubeArray
+syn keyword glslType uvec2
+syn keyword glslType uvec3
+syn keyword glslType uvec4
+syn keyword glslType vec2
+syn keyword glslType vec3
+syn keyword glslType vec4
+syn keyword glslType void
+
+" Qualifiers
+syn keyword glslQualifier attribute
+syn keyword glslQualifier binding
+syn keyword glslQualifier buffer
+syn keyword glslQualifier ccw
+syn keyword glslQualifier centroid
+syn keyword glslQualifier centroid varying
+syn keyword glslQualifier coherent
+syn keyword glslQualifier column_major
+syn keyword glslQualifier const
+syn keyword glslQualifier cw
+syn keyword glslQualifier depth_any
+syn keyword glslQualifier depth_greater
+syn keyword glslQualifier depth_less
+syn keyword glslQualifier depth_unchanged
+syn keyword glslQualifier early_fragment_tests
+syn keyword glslQualifier equal_spacing
+syn keyword glslQualifier flat
+syn keyword glslQualifier fractional_even_spacing
+syn keyword glslQualifier fractional_odd_spacing
+syn keyword glslQualifier highp
+syn keyword glslQualifier in
+syn keyword glslQualifier index
+syn keyword glslQualifier inout
+syn keyword glslQualifier invariant
+syn keyword glslQualifier invocations
+syn keyword glslQualifier isolines
+syn keyword glslQualifier layout
+syn keyword glslQualifier line_strip
+syn keyword glslQualifier lines
+syn keyword glslQualifier lines_adjacency
+syn keyword glslQualifier local_size_x
+syn keyword glslQualifier local_size_y
+syn keyword glslQualifier local_size_z
+syn keyword glslQualifier location
+syn keyword glslQualifier lowp
+syn keyword glslQualifier max_vertices
+syn keyword glslQualifier mediump
+syn keyword glslQualifier noperspective
+syn keyword glslQualifier offset
+syn keyword glslQualifier origin_upper_left
+syn keyword glslQualifier out
+syn keyword glslQualifier packed
+syn keyword glslQualifier patch
+syn keyword glslQualifier pixel_center_integer
+syn keyword glslQualifier point_mode
+syn keyword glslQualifier points
+syn keyword glslQualifier precise
+syn keyword glslQualifier precision
+syn keyword glslQualifier quads
+syn keyword glslQualifier r11f_g11f_b10f
+syn keyword glslQualifier r16
+syn keyword glslQualifier r16_snorm
+syn keyword glslQualifier r16f
+syn keyword glslQualifier r16i
+syn keyword glslQualifier r16ui
+syn keyword glslQualifier r32f
+syn keyword glslQualifier r32i
+syn keyword glslQualifier r32ui
+syn keyword glslQualifier r8
+syn keyword glslQualifier r8_snorm
+syn keyword glslQualifier r8i
+syn keyword glslQualifier r8ui
+syn keyword glslQualifier readonly
+syn keyword glslQualifier restrict
+syn keyword glslQualifier rg16
+syn keyword glslQualifier rg16_snorm
+syn keyword glslQualifier rg16f
+syn keyword glslQualifier rg16i
+syn keyword glslQualifier rg16ui
+syn keyword glslQualifier rg32f
+syn keyword glslQualifier rg32i
+syn keyword glslQualifier rg32ui
+syn keyword glslQualifier rg8
+syn keyword glslQualifier rg8_snorm
+syn keyword glslQualifier rg8i
+syn keyword glslQualifier rg8ui
+syn keyword glslQualifier rgb10_a2
+syn keyword glslQualifier rgb10_a2ui
+syn keyword glslQualifier rgba16
+syn keyword glslQualifier rgba16_snorm
+syn keyword glslQualifier rgba16f
+syn keyword glslQualifier rgba16i
+syn keyword glslQualifier rgba16ui
+syn keyword glslQualifier rgba32f
+syn keyword glslQualifier rgba32i
+syn keyword glslQualifier rgba32ui
+syn keyword glslQualifier rgba8
+syn keyword glslQualifier rgba8_snorm
+syn keyword glslQualifier rgba8i
+syn keyword glslQualifier rgba8ui
+syn keyword glslQualifier row_major
+syn keyword glslQualifier sample
+syn keyword glslQualifier shared
+syn keyword glslQualifier smooth
+syn keyword glslQualifier std140
+syn keyword glslQualifier std430
+syn keyword glslQualifier stream
+syn keyword glslQualifier triangle_strip
+syn keyword glslQualifier triangles
+syn keyword glslQualifier triangles_adjacency
+syn keyword glslQualifier uniform
+syn keyword glslQualifier varying
+syn keyword glslQualifier vertices
+syn keyword glslQualifier volatile
+syn keyword glslQualifier writeonly
+
+" Built-in Constants
+syn keyword glslBuiltinConstant gl_MaxAtomicCounterBindings
+syn keyword glslBuiltinConstant gl_MaxAtomicCounterBufferSize
+syn keyword glslBuiltinConstant gl_MaxClipDistances
+syn keyword glslBuiltinConstant gl_MaxClipPlanes
+syn keyword glslBuiltinConstant gl_MaxCombinedAtomicCounterBuffers
+syn keyword glslBuiltinConstant gl_MaxCombinedAtomicCounters
+syn keyword glslBuiltinConstant gl_MaxCombinedImageUniforms
+syn keyword glslBuiltinConstant gl_MaxCombinedImageUnitsAndFragmentOutputs
+syn keyword glslBuiltinConstant gl_MaxCombinedTextureImageUnits
+syn keyword glslBuiltinConstant gl_MaxComputeAtomicCounterBuffers
+syn keyword glslBuiltinConstant gl_MaxComputeAtomicCounters
+syn keyword glslBuiltinConstant gl_MaxComputeImageUniforms
+syn keyword glslBuiltinConstant gl_MaxComputeTextureImageUnits
+syn keyword glslBuiltinConstant gl_MaxComputeUniformComponents
+syn keyword glslBuiltinConstant gl_MaxComputeWorkGroupCount
+syn keyword glslBuiltinConstant gl_MaxComputeWorkGroupSize
+syn keyword glslBuiltinConstant gl_MaxDrawBuffers
+syn keyword glslBuiltinConstant gl_MaxFragmentAtomicCounterBuffers
+syn keyword glslBuiltinConstant gl_MaxFragmentAtomicCounters
+syn keyword glslBuiltinConstant gl_MaxFragmentImageUniforms
+syn keyword glslBuiltinConstant gl_MaxFragmentInputComponents
+syn keyword glslBuiltinConstant gl_MaxFragmentInputVectors
+syn keyword glslBuiltinConstant gl_MaxFragmentUniformComponents
+syn keyword glslBuiltinConstant gl_MaxFragmentUniformVectors
+syn keyword glslBuiltinConstant gl_MaxGeometryAtomicCounterBuffers
+syn keyword glslBuiltinConstant gl_MaxGeometryAtomicCounters
+syn keyword glslBuiltinConstant gl_MaxGeometryImageUniforms
+syn keyword glslBuiltinConstant gl_MaxGeometryInputComponents
+syn keyword glslBuiltinConstant gl_MaxGeometryOutputComponents
+syn keyword glslBuiltinConstant gl_MaxGeometryOutputVertices
+syn keyword glslBuiltinConstant gl_MaxGeometryTextureImageUnits
+syn keyword glslBuiltinConstant gl_MaxGeometryTotalOutputComponents
+syn keyword glslBuiltinConstant gl_MaxGeometryUniformComponents
+syn keyword glslBuiltinConstant gl_MaxGeometryVaryingComponents
+syn keyword glslBuiltinConstant gl_MaxImageSamples
+syn keyword glslBuiltinConstant gl_MaxImageUnits
+syn keyword glslBuiltinConstant gl_MaxLights
+syn keyword glslBuiltinConstant gl_MaxPatchVertices
+syn keyword glslBuiltinConstant gl_MaxProgramTexelOffset
+syn keyword glslBuiltinConstant gl_MaxTessControlAtomicCounterBuffers
+syn keyword glslBuiltinConstant gl_MaxTessControlAtomicCounters
+syn keyword glslBuiltinConstant gl_MaxTessControlImageUniforms
+syn keyword glslBuiltinConstant gl_MaxTessControlInputComponents
+syn keyword glslBuiltinConstant gl_MaxTessControlOutputComponents
+syn keyword glslBuiltinConstant gl_MaxTessControlTextureImageUnits
+syn keyword glslBuiltinConstant gl_MaxTessControlTotalOutputComponents
+syn keyword glslBuiltinConstant gl_MaxTessControlUniformComponents
+syn keyword glslBuiltinConstant gl_MaxTessEvaluationAtomicCounterBuffers
+syn keyword glslBuiltinConstant gl_MaxTessEvaluationAtomicCounters
+syn keyword glslBuiltinConstant gl_MaxTessEvaluationImageUniforms
+syn keyword glslBuiltinConstant gl_MaxTessEvaluationInputComponents
+syn keyword glslBuiltinConstant gl_MaxTessEvaluationOutputComponents
+syn keyword glslBuiltinConstant gl_MaxTessEvaluationTextureImageUnits
+syn keyword glslBuiltinConstant gl_MaxTessEvaluationUniformComponents
+syn keyword glslBuiltinConstant gl_MaxTessGenLevel
+syn keyword glslBuiltinConstant gl_MaxTessPatchComponents
+syn keyword glslBuiltinConstant gl_MaxTextureCoords
+syn keyword glslBuiltinConstant gl_MaxTextureImageUnits
+syn keyword glslBuiltinConstant gl_MaxTextureUnits
+syn keyword glslBuiltinConstant gl_MaxVaryingComponents
+syn keyword glslBuiltinConstant gl_MaxVaryingFloats
+syn keyword glslBuiltinConstant gl_MaxVaryingVectors
+syn keyword glslBuiltinConstant gl_MaxVertexAtomicCounterBuffers
+syn keyword glslBuiltinConstant gl_MaxVertexAtomicCounters
+syn keyword glslBuiltinConstant gl_MaxVertexAttribs
+syn keyword glslBuiltinConstant gl_MaxVertexImageUniforms
+syn keyword glslBuiltinConstant gl_MaxVertexOutputComponents
+syn keyword glslBuiltinConstant gl_MaxVertexOutputVectors
+syn keyword glslBuiltinConstant gl_MaxVertexTextureImageUnits
+syn keyword glslBuiltinConstant gl_MaxVertexUniformComponents
+syn keyword glslBuiltinConstant gl_MaxVertexUniformVectors
+syn keyword glslBuiltinConstant gl_MaxViewports
+syn keyword glslBuiltinConstant gl_MinProgramTexelOffset
+
+" Built-in Variables
+syn keyword glslBuiltinVariable gl_BackColor
+syn keyword glslBuiltinVariable gl_BackLightModelProduct
+syn keyword glslBuiltinVariable gl_BackLightProduct
+syn keyword glslBuiltinVariable gl_BackLightProduct
+syn keyword glslBuiltinVariable gl_BackMaterial
+syn keyword glslBuiltinVariable gl_BackSecondaryColor
+syn keyword glslBuiltinVariable gl_ClipDistance
+syn keyword glslBuiltinVariable gl_ClipPlane
+syn keyword glslBuiltinVariable gl_ClipVertex
+syn keyword glslBuiltinVariable gl_Color
+syn keyword glslBuiltinVariable gl_DepthRange
+syn keyword glslBuiltinVariable gl_EyePlaneQ
+syn keyword glslBuiltinVariable gl_EyePlaneR
+syn keyword glslBuiltinVariable gl_EyePlaneS
+syn keyword glslBuiltinVariable gl_EyePlaneT
+syn keyword glslBuiltinVariable gl_Fog
+syn keyword glslBuiltinVariable gl_FogCoord
+syn keyword glslBuiltinVariable gl_FogFragCoord
+syn keyword glslBuiltinVariable gl_FragColor
+syn keyword glslBuiltinVariable gl_FragCoord
+syn keyword glslBuiltinVariable gl_FragData
+syn keyword glslBuiltinVariable gl_FragDepth
+syn keyword glslBuiltinVariable gl_FrontColor
+syn keyword glslBuiltinVariable gl_FrontFacing
+syn keyword glslBuiltinVariable gl_FrontLightModelProduct
+syn keyword glslBuiltinVariable gl_FrontLightProduct
+syn keyword glslBuiltinVariable gl_FrontMaterial
+syn keyword glslBuiltinVariable gl_FrontSecondaryColor
+syn keyword glslBuiltinVariable gl_GlobalInvocationID
+syn keyword glslBuiltinVariable gl_InstanceID
+syn keyword glslBuiltinVariable gl_InvocationID
+syn keyword glslBuiltinVariable gl_Layer
+syn keyword glslBuiltinVariable gl_LightModel
+syn keyword glslBuiltinVariable gl_LightSource
+syn keyword glslBuiltinVariable gl_LocalInvocationID
+syn keyword glslBuiltinVariable gl_LocalInvocationIndex
+syn keyword glslBuiltinVariable gl_ModelViewMatrix
+syn keyword glslBuiltinVariable gl_ModelViewMatrixInverse
+syn keyword glslBuiltinVariable gl_ModelViewMatrixInverseTranspose
+syn keyword glslBuiltinVariable gl_ModelViewMatrixTranspose
+syn keyword glslBuiltinVariable gl_ModelViewProjectionMatrix
+syn keyword glslBuiltinVariable gl_ModelViewProjectionMatrixInverse
+syn keyword glslBuiltinVariable gl_ModelViewProjectionMatrixInverseTranspose
+syn keyword glslBuiltinVariable gl_ModelViewProjectionMatrixTranspose
+syn keyword glslBuiltinVariable gl_MultiTexCoord0
+syn keyword glslBuiltinVariable gl_MultiTexCoord1
+syn keyword glslBuiltinVariable gl_MultiTexCoord2
+syn keyword glslBuiltinVariable gl_MultiTexCoord3
+syn keyword glslBuiltinVariable gl_MultiTexCoord4
+syn keyword glslBuiltinVariable gl_MultiTexCoord5
+syn keyword glslBuiltinVariable gl_MultiTexCoord6
+syn keyword glslBuiltinVariable gl_MultiTexCoord7
+syn keyword glslBuiltinVariable gl_Normal
+syn keyword glslBuiltinVariable gl_NormalMatrix
+syn keyword glslBuiltinVariable gl_NormalScale
+syn keyword glslBuiltinVariable gl_NumSamples
+syn keyword glslBuiltinVariable gl_NumWorkGroups
+syn keyword glslBuiltinVariable gl_ObjectPlaneQ
+syn keyword glslBuiltinVariable gl_ObjectPlaneR
+syn keyword glslBuiltinVariable gl_ObjectPlaneS
+syn keyword glslBuiltinVariable gl_ObjectPlaneT
+syn keyword glslBuiltinVariable gl_PatchVerticesIn
+syn keyword glslBuiltinVariable gl_Point
+syn keyword glslBuiltinVariable gl_PointCoord
+syn keyword glslBuiltinVariable gl_PointSize
+syn keyword glslBuiltinVariable gl_Position
+syn keyword glslBuiltinVariable gl_PrimitiveID
+syn keyword glslBuiltinVariable gl_PrimitiveIDIn
+syn keyword glslBuiltinVariable gl_ProjectionMatrix
+syn keyword glslBuiltinVariable gl_ProjectionMatrixInverse
+syn keyword glslBuiltinVariable gl_ProjectionMatrixInverseTranspose
+syn keyword glslBuiltinVariable gl_ProjectionMatrixTranspose
+syn keyword glslBuiltinVariable gl_SampleID
+syn keyword glslBuiltinVariable gl_SampleMask
+syn keyword glslBuiltinVariable gl_SampleMaskIn
+syn keyword glslBuiltinVariable gl_SamplePosition
+syn keyword glslBuiltinVariable gl_SecondaryColor
+syn keyword glslBuiltinVariable gl_TessCoord
+syn keyword glslBuiltinVariable gl_TessLevelInner
+syn keyword glslBuiltinVariable gl_TessLevelOuter
+syn keyword glslBuiltinVariable gl_TexCoord
+syn keyword glslBuiltinVariable gl_TextureEnvColor
+syn keyword glslBuiltinVariable gl_TextureMatrix
+syn keyword glslBuiltinVariable gl_TextureMatrixInverse
+syn keyword glslBuiltinVariable gl_TextureMatrixInverseTranspose
+syn keyword glslBuiltinVariable gl_TextureMatrixTranspose
+syn keyword glslBuiltinVariable gl_Vertex
+syn keyword glslBuiltinVariable gl_VertexID
+syn keyword glslBuiltinVariable gl_ViewportIndex
+syn keyword glslBuiltinVariable gl_WorkGroupID
+syn keyword glslBuiltinVariable gl_WorkGroupSize
+syn keyword glslBuiltinVariable gl_in
+syn keyword glslBuiltinVariable gl_out
+
+" Built-in Functions
+syn keyword glslBuiltinFunction EmitStreamVertex
+syn keyword glslBuiltinFunction EmitVertex
+syn keyword glslBuiltinFunction EndPrimitive
+syn keyword glslBuiltinFunction EndStreamPrimitive
+syn keyword glslBuiltinFunction abs
+syn keyword glslBuiltinFunction acos
+syn keyword glslBuiltinFunction acosh
+syn keyword glslBuiltinFunction all
+syn keyword glslBuiltinFunction any
+syn keyword glslBuiltinFunction asin
+syn keyword glslBuiltinFunction asinh
+syn keyword glslBuiltinFunction atan
+syn keyword glslBuiltinFunction atanh
+syn keyword glslBuiltinFunction atomicAdd
+syn keyword glslBuiltinFunction atomicAnd
+syn keyword glslBuiltinFunction atomicCompSwap
+syn keyword glslBuiltinFunction atomicCounter
+syn keyword glslBuiltinFunction atomicCounterDecrement
+syn keyword glslBuiltinFunction atomicCounterIncrement
+syn keyword glslBuiltinFunction atomicExchange
+syn keyword glslBuiltinFunction atomicMax
+syn keyword glslBuiltinFunction atomicMin
+syn keyword glslBuiltinFunction atomicOr
+syn keyword glslBuiltinFunction atomicXor
+syn keyword glslBuiltinFunction barrier
+syn keyword glslBuiltinFunction bitCount
+syn keyword glslBuiltinFunction bitfieldExtract
+syn keyword glslBuiltinFunction bitfieldInsert
+syn keyword glslBuiltinFunction bitfieldReverse
+syn keyword glslBuiltinFunction ceil
+syn keyword glslBuiltinFunction clamp
+syn keyword glslBuiltinFunction cos
+syn keyword glslBuiltinFunction cosh
+syn keyword glslBuiltinFunction cross
+syn keyword glslBuiltinFunction dFdx
+syn keyword glslBuiltinFunction dFdy
+syn keyword glslBuiltinFunction degrees
+syn keyword glslBuiltinFunction determinant
+syn keyword glslBuiltinFunction distance
+syn keyword glslBuiltinFunction dot
+syn keyword glslBuiltinFunction equal
+syn keyword glslBuiltinFunction exp
+syn keyword glslBuiltinFunction exp2
+syn keyword glslBuiltinFunction faceforward
+syn keyword glslBuiltinFunction findLSB
+syn keyword glslBuiltinFunction findMSB
+syn keyword glslBuiltinFunction floatBitsToInt
+syn keyword glslBuiltinFunction floatBitsToUint
+syn keyword glslBuiltinFunction floor
+syn keyword glslBuiltinFunction fma
+syn keyword glslBuiltinFunction fract
+syn keyword glslBuiltinFunction frexp
+syn keyword glslBuiltinFunction ftransform
+syn keyword glslBuiltinFunction fwidth
+syn keyword glslBuiltinFunction greaterThan
+syn keyword glslBuiltinFunction greaterThanEqual
+syn keyword glslBuiltinFunction groupMemoryBarrier
+syn keyword glslBuiltinFunction imageAtomicAdd
+syn keyword glslBuiltinFunction imageAtomicAnd
+syn keyword glslBuiltinFunction imageAtomicCompSwap
+syn keyword glslBuiltinFunction imageAtomicExchange
+syn keyword glslBuiltinFunction imageAtomicMax
+syn keyword glslBuiltinFunction imageAtomicMin
+syn keyword glslBuiltinFunction imageAtomicOr
+syn keyword glslBuiltinFunction imageAtomicXor
+syn keyword glslBuiltinFunction imageLoad
+syn keyword glslBuiltinFunction imageSize
+syn keyword glslBuiltinFunction imageStore
+syn keyword glslBuiltinFunction imulExtended
+syn keyword glslBuiltinFunction intBitsToFloat
+syn keyword glslBuiltinFunction interpolateAtCentroid
+syn keyword glslBuiltinFunction interpolateAtOffset
+syn keyword glslBuiltinFunction interpolateAtSample
+syn keyword glslBuiltinFunction inverse
+syn keyword glslBuiltinFunction inversesqrt
+syn keyword glslBuiltinFunction isinf
+syn keyword glslBuiltinFunction isnan
+syn keyword glslBuiltinFunction ldexp
+syn keyword glslBuiltinFunction length
+syn keyword glslBuiltinFunction lessThan
+syn keyword glslBuiltinFunction lessThanEqual
+syn keyword glslBuiltinFunction log
+syn keyword glslBuiltinFunction log2
+syn keyword glslBuiltinFunction matrixCompMult
+syn keyword glslBuiltinFunction max
+syn keyword glslBuiltinFunction memoryBarrier
+syn keyword glslBuiltinFunction memoryBarrierAtomicCounter
+syn keyword glslBuiltinFunction memoryBarrierBuffer
+syn keyword glslBuiltinFunction memoryBarrierImage
+syn keyword glslBuiltinFunction memoryBarrierShared
+syn keyword glslBuiltinFunction min
+syn keyword glslBuiltinFunction mix
+syn keyword glslBuiltinFunction mod
+syn keyword glslBuiltinFunction modf
+syn keyword glslBuiltinFunction noise1
+syn keyword glslBuiltinFunction noise2
+syn keyword glslBuiltinFunction noise3
+syn keyword glslBuiltinFunction noise4
+syn keyword glslBuiltinFunction normalize
+syn keyword glslBuiltinFunction not
+syn keyword glslBuiltinFunction notEqual
+syn keyword glslBuiltinFunction outerProduct
+syn keyword glslBuiltinFunction packDouble2x32
+syn keyword glslBuiltinFunction packHalf2x16
+syn keyword glslBuiltinFunction packSnorm2x16
+syn keyword glslBuiltinFunction packSnorm4x8
+syn keyword glslBuiltinFunction packUnorm2x16
+syn keyword glslBuiltinFunction packUnorm4x8
+syn keyword glslBuiltinFunction pow
+syn keyword glslBuiltinFunction radians
+syn keyword glslBuiltinFunction reflect
+syn keyword glslBuiltinFunction refract
+syn keyword glslBuiltinFunction round
+syn keyword glslBuiltinFunction roundEven
+syn keyword glslBuiltinFunction shadow1D
+syn keyword glslBuiltinFunction shadow1DLod
+syn keyword glslBuiltinFunction shadow1DProj
+syn keyword glslBuiltinFunction shadow1DProjLod
+syn keyword glslBuiltinFunction shadow2D
+syn keyword glslBuiltinFunction shadow2DLod
+syn keyword glslBuiltinFunction shadow2DProj
+syn keyword glslBuiltinFunction shadow2DProjLod
+syn keyword glslBuiltinFunction sign
+syn keyword glslBuiltinFunction sin
+syn keyword glslBuiltinFunction sinh
+syn keyword glslBuiltinFunction smoothstep
+syn keyword glslBuiltinFunction sqrt
+syn keyword glslBuiltinFunction step
+syn keyword glslBuiltinFunction tan
+syn keyword glslBuiltinFunction tanh
+syn keyword glslBuiltinFunction texelFetch
+syn keyword glslBuiltinFunction texelFetchOffset
+syn keyword glslBuiltinFunction texture
+syn keyword glslBuiltinFunction texture1D
+syn keyword glslBuiltinFunction texture1DLod
+syn keyword glslBuiltinFunction texture1DProj
+syn keyword glslBuiltinFunction texture1DProjLod
+syn keyword glslBuiltinFunction texture2D
+syn keyword glslBuiltinFunction texture2DLod
+syn keyword glslBuiltinFunction texture2DProj
+syn keyword glslBuiltinFunction texture2DProjLod
+syn keyword glslBuiltinFunction texture3D
+syn keyword glslBuiltinFunction texture3DLod
+syn keyword glslBuiltinFunction texture3DProj
+syn keyword glslBuiltinFunction texture3DProjLod
+syn keyword glslBuiltinFunction textureCube
+syn keyword glslBuiltinFunction textureCubeLod
+syn keyword glslBuiltinFunction textureGather
+syn keyword glslBuiltinFunction textureGatherOffset
+syn keyword glslBuiltinFunction textureGatherOffsets
+syn keyword glslBuiltinFunction textureGrad
+syn keyword glslBuiltinFunction textureGradOffset
+syn keyword glslBuiltinFunction textureLod
+syn keyword glslBuiltinFunction textureLodOffset
+syn keyword glslBuiltinFunction textureOffset
+syn keyword glslBuiltinFunction textureProj
+syn keyword glslBuiltinFunction textureProjGrad
+syn keyword glslBuiltinFunction textureProjGradOffset
+syn keyword glslBuiltinFunction textureProjLod
+syn keyword glslBuiltinFunction textureProjLodOffset
+syn keyword glslBuiltinFunction textureProjOffset
+syn keyword glslBuiltinFunction textureQueryLevels
+syn keyword glslBuiltinFunction textureQueryLod
+syn keyword glslBuiltinFunction textureSize
+syn keyword glslBuiltinFunction transpose
+syn keyword glslBuiltinFunction trunc
+syn keyword glslBuiltinFunction uaddCarry
+syn keyword glslBuiltinFunction uintBitsToFloat
+syn keyword glslBuiltinFunction umulExtended
+syn keyword glslBuiltinFunction unpackDouble2x32
+syn keyword glslBuiltinFunction unpackHalf2x16
+syn keyword glslBuiltinFunction unpackSnorm2x16
+syn keyword glslBuiltinFunction unpackSnorm4x8
+syn keyword glslBuiltinFunction unpackUnorm2x16
+syn keyword glslBuiltinFunction unpackUnorm4x8
+syn keyword glslBuiltinFunction usubBorrow
+
+hi def link glslConditional     Conditional
+hi def link glslRepeat          Repeat
+hi def link glslStatement       Statement
+hi def link glslTodo            Todo
+hi def link glslCommentL        glslComment
+hi def link glslCommentStart    glslComment
+hi def link glslComment         Comment
+hi def link glslPreCondit       PreCondit
+hi def link glslDefine          Define
+hi def link glslTokenConcat     glslPreProc
+hi def link glslPredefinedMacro Macro
+hi def link glslPreProc         PreProc
+hi def link glslBoolean         Boolean
+hi def link glslDecimalInt      glslInteger
+hi def link glslOctalInt        glslInteger
+hi def link glslHexInt          glslInteger
+hi def link glslInteger         Number
+hi def link glslFloat           Float
+hi def link glslStructure       Structure
+hi def link glslType            Type
+hi def link glslQualifier       StorageClass
+hi def link glslBuiltinConstant Constant
+hi def link glslBuiltinFunction Function
+hi def link glslBuiltinVariable Identifier
+hi def link glslSwizzle         SpecialChar
+
+if !exists("b:current_syntax")
+  let b:current_syntax = "glsl"
 endif
 
-"integer number, or floating point number without a dot and with "f".
-syn case ignore
-syn match           glslNumbers         display transparent "\<\d\|\.\d" contains=glslNumber,glslFloat,glslOctalError,glslOctal
-" Same, but without octal error (for comments)
-syn match           glslNumbersCom      display contained transparent "\<\d\|\.\d" contains=glslNumber,glslFloat,glslOctal
-syn match           glslNumber          display contained "\d\+\(u\=l\{0,2}\|ll\=u\)\>"
-"hex number
-syn match           glslNumber          display contained "0x\x\+\(u\=l\{0,2}\|ll\=u\)\>"
-" Flag the first zero of an octal number as something special
-syn match           glslOctal           display contained "0\o\+\(u\=l\{0,2}\|ll\=u\)\>" contains=glslOctalZero
-syn match           glslOctalZero       display contained "\<0"
-syn match           glslFloat           display contained "\d\+f"
-"floating point number, with dot, optional exponent
-syn match           glslFloat           display contained "\d\+\.\d*\(e[-+]\=\d\+\)\=[fl]\="
-"floating point number, starting with a dot, optional exponent
-syn match           glslFloat           display contained "\.\d\+\(e[-+]\=\d\+\)\=[fl]\=\>"
-"floating point number, without dot, with exponent
-syn match           glslFloat           display contained "\d\+e[-+]\=\d\+[fl]\=\>"
-" flag an octal number with wrong digits
-syn match           glslOctalError      display contained "0\o*[89]\d*"
-syn case match
-
-if exists("c_comment_strings")
-  " A comment can contain glslString, glslCharacter and glslNumber.
-  " But a "*/" inside a glslString in a glslComment DOES end the comment!  So we
-  " need to use a special type of glslString: glslCommentString, which also ends on
-  " "*/", and sees a "*" at the start of the line as glslomment again.
-  " Unfortunately this doesn't very well work for // type of comments :-(
-  syntax match      glslCommentSkip     contained "^\s*\*\($\|\s\+\)"
-  syntax region     glslCommentString   contained start=+L\=\\\@<!"+ skip=+\\\\\|\\"+ end=+"+ end=+\*/+me=s-1 contains=glslSpecial,glslCommentSkip
-  syntax region     glslComment2String  contained start=+L\=\\\@<!"+ skip=+\\\\\|\\"+ end=+"+ end="$" contains=glslSpecial
-  syntax region     glslCommentL        start="//" skip="\\$" end="$" keepend contains=@glslCommentGroup,glslComment2String,glslCharacter,glslNumbersCom,glslSpaceError
-  syntax region     glslComment         matchgroup=glslCommentStart start="/\*" matchgroup=NONE end="\*/" contains=@glslCommentGroup,glslCommentStartError,glslCommentString,glslCharacter,glslNumbersCom,glslSpaceError
-else
-  syn region        glslCommentL        start="//" skip="\\$" end="$" keepend contains=@glslCommentGroup,glslSpaceError
-  syn region        glslComment         matchgroup=glslCommentStart start="/\*" matchgroup=NONE end="\*/" contains=@glslCommentGroup,glslCommentStartError,glslSpaceError
-endif
-" keep a // comment separately, it terminates a preproc. conditional
-syntax match        glslCommentError        display "\*/"
-syntax match        glslCommentStartError   display "/\*"me=e-1 contained
-
-syn keyword        glslType                void
-syn keyword        glslType                bool  bvec2 bvec3 bvec4
-syn keyword        glslType                int   ivec2 ivec3 ivec4
-syn keyword        glslType                float vec2  vec3  vec4
-syn keyword        glslType                mat2  mat3  mat4
-syn keyword        glslType                sampler1D sampler2D sampler3D samplerCUBE sampler1DShadow sampler2DShadow
-
-syn keyword        glslStructure           struct
-
-syn keyword        glslStorageClass        const attribute varying uniform
-syn keyword        glslStorageClass        in out inout
-
-syn keyword        glslConstant            __LINE__ __FILE__ __VERSION__
-
-syn keyword        glslConstant            true false
-
-syn region         glslPreCondit           start="^\s*#\s*\(if\|ifdef\|ifndef\|elif\)\>" skip="\\$" end="$" end="//"me=s-1 contains=glslComment,glslCppString,glslCharacter,glslCppParen,glslParenError,glslNumbers,glslCommentError,glslSpaceError
-syn match          glslPreCondit           display "^\s*#\s*\(else\|endif\)\>"
-syn region         glslCppOut              start="^\s*#\s*if\s\+0\+\>" end=".\|$" contains=glslCppOut2
-syn region         glslCppOut2             contained start="0" end="^\s*#\s*\(endif\>\|else\>\|elif\>\)" contains=glslSpaceError,glslCppSkip
-syn region         glslCppSkip             contained start="^\s*#\s*\(if\>\|ifdef\>\|ifndef\>\)" skip="\\$" end="^\s*#\s*endif\>" contains=glslSpaceError,glslCppSkip
-"syn match glslLineSkip        "\\$"
-syn cluster        glslPreProglslGroup     contains=glslPreCondit,glslIncluded,glslInclude,glslDefine,glslErrInParen,glslErrInBracket,glslUserLabel,glslSpecial,glslOctalZero,glslCppOut,glslCppOut2,glslCppSkip,glslFormat,glslNumber,glslFloat,glslOctal,glslOctalError,glslNumbersCom,glslString,glslCommentSkip,glslCommentString,glslComment2String,@glslCommentGroup,glslCommentStartError,glslParen,glslBracket,glslMulti
-syn region         glslDefine              start="^\s*#\s*\(define\|undef\)\>" skip="\\$" end="$" end="//"me=s-1 contains=ALLBUT,@glslPreProglslGroup
-syn region         glslPreProc             start="^\s*#\s*\(pragma\>\|line\>\|error\>\|version\>\|extension\>\)" skip="\\$" end="$" keepend contains=ALLBUT,@glslPreProglslGroup
-
-" Highlight User Labels
-syn cluster        glslMultiGroup          contains=glslIncluded,glslSpecial,glslCommentSkip,glslCommentString,glslComment2String,@glslCommentGroup,glslCommentStartError,glslUserCont,glslUserLabel,glslBitField,glslOctalZero,glslCppOut,glslCppOut2,glslCppSkip,glslFormat,glslNumber,glslFloat,glslOctal,glslOctalError,glslNumbersCom,glslCppParen,glslCppBracket,glslCppString
-syn region         glslMulti               transparent start='?' skip='::' end=':' contains=ALLBUT,@glslMultiGroup
-" Avoid matching foo::bar() in C++ by requiring that the next char is not ':'
-syn cluster        glslLabelGroup          contains=glslUserLabel
-syn match          glslUserCont            display "^\s*\I\i*\s*:$" contains=@glslLabelGroup
-syn match          glslUserCont            display ";\s*\I\i*\s*:$" contains=@glslLabelGroup
-syn match          glslUserCont            display "^\s*\I\i*\s*:[^:]"me=e-1 contains=@glslLabelGroup
-syn match          glslUserCont            display ";\s*\I\i*\s*:[^:]"me=e-1 contains=@glslLabelGroup
-
-syn match          glslUserLabel           display "\I\i*" contained
-
-" Avoid recognizing most bitfields as labels
-syn match          glslBitField            display "^\s*\I\i*\s*:\s*[1-9]"me=e-1
-syn match          glslBitField            display ";\s*\I\i*\s*:\s*[1-9]"me=e-1
-
-syn keyword        glslState               gl_Position gl_PointSize gl_ClipVertex
-syn keyword        glslState               gl_FragCoord gl_FrontFacing gl_FragColor gl_FragData gl_FragDepth
-
-" vertex attributes
-syn keyword        glslState               gl_Color gl_SecondaryColor gl_Normal gl_Vertex gl_FogCoord
-syn match          glslState               display "gl_MultiTexCoord\d\+"
-
-" varying variables
-syn keyword        glslState               gl_FrontColor gl_BackColor gl_FrontSecondaryColor gl_BackSecondaryColor gl_TexCoord gl_FogFragCoord
-
-" uniforms
-syn keyword        glslUniform             gl_ModelViewMatrix gl_ProjectionMatrix gl_ModelViewProjectionMatrix gl_NormalMatrix gl_TextureMatrix
-syn keyword        glslUniform             gl_NormalScale gl_DepthRange gl_ClipPlane gl_Point gl_FrontMaterial gl_BackMaterial
-syn keyword        glslUniform             gl_LightSource gl_LightModel gl_FrontLightModelProduct gl_BackLightModelProduct
-syn keyword        glslUniform             gl_FrontLightProduct gl_BackLightProduct glTextureEnvColor
-syn keyword        glslUniform             gl_TextureEnvColor gl_Fog
-syn match          glslUniform             display "gl_EyePlane[STRQ]"
-syn match          glslUniform             display "gl_ObjectPlane[STRQ]"
-syn keyword        glslUniform             gl_ModelViewMatrixInverse gl_ProjectionMatrixInverse gl_ModelViewProjectionMatrixInverse 
-syn keyword        glslUniform             gl_TextureMatrixInverse gl_ModelViewMatrixTranspose gl_ProjectionMatrixTranspose
-syn keyword        glslUniform             gl_ModelViewProjectionMatrixTranspose gl_TextureMatrixTranspose gl_ModelViewMatrixInverseTranspose
-syn keyword        glslUniform             gl_ProjectionMatrixInverseTranspose gl_ModelViewProjectionMatrixInverseTranspose gl_TextureMatrixInverseTranspose
-
-" uniform types
-syn keyword        glslType                gl_DepthRangeParameters gl_PointParameters gl_MaterialParameters
-syn keyword        glslType                gl_LightSourceParameters gl_LightModelParameters gl_LightModelProducts
-syn keyword        glslType                gl_LightProducts gl_FogParameters
-
-" constants
-syn keyword        glslConstant            gl_MaxLights gl_MaxClipPlanes gl_MaxTextureUnits gl_MaxTextureCoords gl_MaxVertexAttribs
-syn keyword        glslConstant            gl_MaxVertexUniformComponents gl_MaxVaryingFloats gl_MaxVertexTextureImageUnits
-syn keyword        glslConstant            gl_MaxCombinedTextureImageUnits gl_MaxTextureImageUnits gl_MaxFragmentUniformComponents 
-syn keyword        glslConstant            gl_MaxDrawBuffers
-
-" swizzling
-syn match          glslSwizzle             /\.[xyzw]\{1,4\}\>/
-syn match          glslSwizzle             /\.[rgba]\{1,4\}\>/
-syn match          glslSwizzle             /\.[stpq]\{1,4\}\>/
-
-" built in functions
-syn keyword        glslFunc                radians degrees sin cos tan asin acos atan pow exp2 log2 sqrt inversesqrt
-syn keyword        glslFunc                abs sign floor ceil fract mod min max clamp mix step smoothstep 
-syn keyword        glslFunc                length distance dot cross normalize ftransform faceforward reflect
-syn keyword        glslFunc                matrixcompmult lessThan lessThanEqual greaterThan greaterThanEqual equal notEqual any all not
-syn keyword        glslFunc                texture1D texture1DProj texture1DLod texture1DProjLod
-syn keyword        glslFunc                texture2D texture2DProj texture2DLod texture2DProjLod
-syn keyword        glslFunc                texture3D texture3DProj texture3DLod texture3DProjLod
-syn keyword        glslFunc                textureCube textureCubeLod
-syn keyword        glslFunc                shadow1D shadow1DProj shadow1DLod shadow1DProjLod
-syn keyword        glslFunc                shadow2D shadow2DProj shadow2DLod shadow2DProjLod
-syn keyword        glslFunc                dFdx dFdy fwidth noise1 noise2 noise3 noise4
-syn keyword        glslFunc                refract exp log
-
-" highlight unsupported keywords
-syn keyword        glslUnsupported         asm
-syn keyword        glslUnsupported         class union enum typedef template this packed
-syn keyword        glslUnsupported         goto switch default
-syn keyword        glslUnsupported         inline noinline volatile public static extern external interface
-syn keyword        glslUnsupported         long short double half fixed unsigned
-syn keyword        glslUnsupported         input output
-syn keyword        glslUnsupported         hvec2 hvec3 hvec4 dvec2 dvec3 dvec4 fvec2 fvec3 fvec4 
-syn keyword        glslUnsupported         sampler2DRect sampler3DRect sampler2DRectShadow
-syn keyword        glslUnsupported         sizeof cast
-syn keyword        glslUnsupported         namespace using
-
-"wtf?
-"let b:c_minlines = 50        " #if 0 constructs can be long
-"exec "syn sync ccomment glslComment minlines=" . b:c_minlines
-
-" Define the default highlighting.
-" For version 5.7 and earlier: only when not done already
-" For version 5.8 and later: only when an item doesn't have highlighting yet
-if version >= 508 || !exists("did_glsl_syn_inits")
-  if version < 508
-    let did_glsl_syn_inits = 1
-    command -nargs=+ HiLink hi link <args>
-  else
-    command -nargs=+ HiLink hi def link <args>
-  endif
-
-  HiLink glslFormat                   glslSpecial
-  HiLink glslCppString                glslString
-  HiLink glslCommentL                 glslComment
-  HiLink glslCommentStart             glslComment
-  HiLink glslLabel                    Label
-  HiLink glslUserLabel                Label
-  HiLink glslConditional              Conditional
-  HiLink glslRepeat                   Repeat
-  HiLink glslCharacter                Character
-  HiLink glslSpecialCharacter         glslSpecial
-  HiLink glslNumber                   Number
-  HiLink glslOctal                    Number
-  HiLink glslOctalZero                PreProc         " link this to Error if you want
-  HiLink glslFloat                    Float
-  HiLink glslOctalError               glslError
-  HiLink glslParenError               glslError
-  HiLink glslErrInParen               glslError
-  HiLink glslErrInBracket             glslError
-  HiLink glslCommentError             glslError
-  HiLink glslCommentStartError        glslError
-  HiLink glslSpaceError               glslError
-  HiLink glslSpecialError             glslError
-  HiLink glslOperator                 Operator
-  HiLink glslStructure                Structure
-  HiLink glslStorageClass             StorageClass
-  HiLink glslInclude                  Include
-  HiLink glslPreProc                  PreProc
-  HiLink glslDefine                   Macro
-  HiLink glslIncluded                 glslString
-  HiLink glslError                    Error
-  HiLink glslStatement                Statement
-  HiLink glslPreCondit                PreCondit
-  HiLink glslType                     Type
-  HiLink glslConstant                 Constant
-  HiLink glslCommentString            glslString
-  HiLink glslComment2String           glslString
-  HiLink glslCommentSkip              glslComment
-  HiLink glslString                   String
-  HiLink glslComment                  Comment
-  HiLink glslSpecial                  SpecialChar
-  HiLink glslSwizzle                  SpecialChar
-  HiLink glslTodo                     Todo
-  HiLink glslCppSkip                  glslCppOut
-  HiLink glslCppOut2                  glslCppOut
-  HiLink glslCppOut                   Comment
-  HiLink glslUniform                  glslType
-  HiLink glslState                    glslType
-  HiLink glslFunc                     glslStatement
-  HiLink glslUnsupported              glslError
-
-  delcommand HiLink
-endif
-
-let b:current_syntax = "glsl"
-
-" vim: ts=8
+" vim:set sts=2 sw=2 :
