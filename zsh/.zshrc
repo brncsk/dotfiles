@@ -1,6 +1,6 @@
 # Basic stuff
 export NAME="Ádám Barancsuk"
-export EMAIL="adam.barancsuk@gmail.com"
+export EMAIL="adam barancsuk gmail com"
 
 export EDITOR=vim
 export VISUAL=gedit
