@@ -28,8 +28,6 @@ THEME_PROMPT=(
 	git_bg	'pink'
 )
 		
-	ZSH_THEME_COMPLETION_WAITING_MSG=${_FG[$_COLORS[grey4]]}$_CHARS[e]$_ANSIFX[0]
-
 typeset -Ag THEME_PROMPT_PATH
 THEME_PROMPT_PATH=(
 	'/'		'/'

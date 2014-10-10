@@ -1,6 +1,9 @@
 #!/usr/bin/zsh
 
 [ -n $TMUX ] && () {
+
+	export THEME_BACKEND=tmux	
+
 	source ~/.zsh/lib/presentation.lib.zsh
 	source ~/.zsh/lib/theme.lib.zsh
 

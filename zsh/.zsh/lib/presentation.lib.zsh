@@ -1,6 +1,6 @@
 #!/usr/bin/zsh
 
-typeset -Ag CH NAMED_COLORS FX FG BG TMUX_FX TMUX_FG TMUX_BG
+typeset -Ag CH NAMED_COLORS FX FG BG ANSI_FX ANSI_FG ANSI_BG TMUX_FX TMUX_FG TMUX_BG
 
 CH=(
 	p	'❯'					# Default prompt character
@@ -58,7 +58,7 @@ NAMED_COLORS=(
 	sblue10	51
 );
 
-FX=(
+ANSI_FX=(
 	0  "%{[00m%}"
 	b+ "%{[01m%}" b- "%{[22m%}"
 	i+ "%{[03m%}" i- "%{[23m%}"
@@ -77,20 +77,30 @@ TMUX_FX=(
 )
 
 for i in {0..255}; do
-    FG[$i]="%{[38;5;${i}m%}"
+    ANSI_FG[$i]="%{[38;5;${i}m%}"
 	TMUX_FG[$i]="#[fg=colour$i]"
 
-    BG[$i]="%{[48;5;${i}m%}"
+    ANSI_BG[$i]="%{[48;5;${i}m%}"
 	TMUX_BG[$i]="#[bg=colour$i]"
 done
 
 for nc in ${(@k)NAMED_COLORS}; do
-	FG[$nc]=$FG[$NAMED_COLORS[$nc]]
+	ANSI_FG[$nc]=$ANSI_FG[$NAMED_COLORS[$nc]]
 	TMUX_FG[$nc]=$TMUX_FG[$NAMED_COLORS[$nc]]
 
-	BG[$nc]=$BG[$NAMED_COLORS[$nc]]
+	ANSI_BG[$nc]=$ANSI_BG[$NAMED_COLORS[$nc]]
 	TMUX_BG[$nc]=$TMUX_BG[$NAMED_COLORS[$nc]]
 done
+
+if [[ $THEME_BACKEND == 'tmux' ]]; then
+	set -A FX ${(kv)TMUX_FX}
+	set -A FG ${(kv)TMUX_FG}
+	set -A BG ${(kv)TMUX_BG}
+else
+	set -A FX ${(kv)ANSI_FX}
+	set -A FG ${(kv)ANSI_FG}
+	set -A BG ${(kv)ANSI_BG}
+fi
 
 function render_status_segment () {
 	if [ $# -eq 1 ]; then
@@ -110,7 +120,7 @@ function render_status_segment () {
 	[ -z $c_fg ] && c_fg=$THEME_DEFAULTS[default_fg]
 	[ -z $c_bg ] && c_bg=$THEME_DEFAULTS[default_bg]
 
-	echo -n "${TMUX_FG[$c_bg]}${CH[Al]}${TMUX_BG[$c_bg]}${TMUX_FG[$c_fg]}"
+	echo -n "${FG[$c_bg]}${CH[Al]}${BG[$c_bg]}${FG[$c_fg]}"
 	echo -n "${caption}"
-	echo -n "${TMUX_FX[0]}${TMUX_FG[$c_bg]}${CH[Ar]}${TMUX_FX[0]}"
+	echo -n "${FX[0]}${FG[$c_bg]}${CH[Ar]}${FX[0]}"
 }
