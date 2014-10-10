@@ -1,13 +1,9 @@
 # get the name of the branch we are on
 function git_prompt_info() {
-  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
-  cb=${ZSH_THEME_GIT_TEXT_CALLBACK:-_git_prompt_text_cb_noop}
-  echo -n "$ZSH_THEME_GIT_PROMPT_PREFIX"
-  $cb ${ref#refs/heads/}
-  echo $(parse_git_dirty)$ZSH_THEME_GIT_PROMPT_SUFFIX
+	ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+	echo $ref
+	render_status_segment "pink" "white" "${ref#refs/heads/}"
 }
-
-function _git_prompt_text_cb_noop { echo -n $1 }
 
 # Checks if working tree is dirty
 parse_git_dirty() {

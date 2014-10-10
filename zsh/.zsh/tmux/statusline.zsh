@@ -1,8 +1,8 @@
 #!/usr/bin/zsh
 
 [ -n $TMUX ] && () {
-	source ~/.zsh/tmux/presentation.lib.zsh
-	source ~/.zsh/tmux/theme.lib.zsh
+	source ~/.zsh/lib/presentation.lib.zsh
+	source ~/.zsh/lib/theme.lib.zsh
 
 	. ~/.zsh/tmux/tmuxload/tmuxload.plugin.zsh
 	. ~/.zsh/tmux/tmuxtemp/tmuxtemp.plugin.zsh

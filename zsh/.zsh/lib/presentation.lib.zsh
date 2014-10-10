@@ -10,7 +10,7 @@ CH=(
 	d	''					# Data
 
 	e	'…'					# Ellipses
-
+	re	'↵'					# Return value indicator
 	s	'→'		I	'│'		# Various separators
 	aL  '◀'		aR	'▶'		# Various separators
 
@@ -41,12 +41,11 @@ NAMED_COLORS=(
 	white	255		pink	198
 	red		160		orange	208
 	yellow	220		green	154
-	blue	039		dgreen	34
+	blue	39		dgreen	34
 	
 	grey1	237		grey2	239
 	grey3	240		grey4	245
 	black	0
-
 	sblue1	17	
 	sblue2	18
 	sblue3	19
