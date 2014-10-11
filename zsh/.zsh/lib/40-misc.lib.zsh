@@ -44,7 +44,8 @@
 	zle -N zle-line-init
 
 # Syntax highlighting (installed from AUR)
-	source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+	[-r /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh] && \
+		source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Job listing in long format
 	setopt long_list_jobs
