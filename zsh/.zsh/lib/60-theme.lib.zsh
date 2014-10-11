@@ -24,7 +24,7 @@ THEME_PROMPT=(
 
 	dir_sep			"$FX[b-]$FG[grey4] $CH[ar] $FG[$prompt_fg]$FX[b+]"
 	suffix			"$FG[grey4] $CH[ar] $FX[0]"
-	comp_busy		"$FG[grey4]$CH[e]$FX[0]"
+	comp_busy		"$CH[e]"
 
 	ssh_user_before	""
 	ssh_host_before " @ "
