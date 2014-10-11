@@ -1,3 +1,9 @@
+# Poor man's `chsh`: drop us into zsh if it's available.
+if command -v zsh >/dev/null 2>&1; then
+	zsh
+	exit
+fi
+
 # Basics -------------------------------------------------------------------------------------- {{{
 
 	[ -z "$PS1" ] && return
