@@ -38,6 +38,9 @@ alias d='dirs -v'
 
 # Git
 
+alias gc='git commit -a'
+compdef _git gc=git-commit
+
 alias gst='git status'
 compdef _git gst=git-status
 
