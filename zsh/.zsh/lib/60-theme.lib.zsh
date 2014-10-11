@@ -12,15 +12,17 @@ THEME_DEFAULTS=(
 	critical_fg 'white'
 )
 
+[ $UID -eq 0 ] && prompt_fg=red || prompt_fg=blue
+
 typeset -Ag THEME_PROMPT
 THEME_PROMPT=(
-	shallow_before	"$FG[blue]  "
+	shallow_before	"$FG[$prompt_fg]  "
 	shallow_after	" "
 
-	deep_before		"$FG[blue]$FX[r+]  "
-	deep_after		"  $FX[r-]$CH[AR]$FX[0]$FX[b+]$FG[blue] "
+	deep_before		"$FG[$prompt_fg]$FX[r+]  "
+	deep_after		"  $FX[r-]$CH[AR]$FX[0]$FX[b+]$FG[$prompt_fg] "
 
-	dir_sep			"$FX[b-]$FG[grey4] $CH[ar] $FG[blue]$FX[b+]"
+	dir_sep			"$FX[b-]$FG[grey4] $CH[ar] $FG[$prompt_fg]$FX[b+]"
 	suffix			"$FG[grey4] $CH[ar] $FX[0]"
 	comp_busy		"$FG[grey4]$CH[e]$FX[0]"
 
