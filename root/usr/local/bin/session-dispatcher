@@ -1,7 +1,7 @@
 #!/bin/sh
 
 USERSHELL=/usr/bin/zsh
-TMUXBIN=/usr/local/bin/tmux-2
+TMUX_WRAPPER=/usr/local/bin/tmux
 
 case $(tty) in
 	*tty*)
@@ -23,6 +23,6 @@ case $(tty) in
 		else
 			# Running in a PTS (which is probably an X terminal emulator or kmscon),
 			# start tmux.
-			exec $TMUXBIN;
+			exec $TMUX_WRAPPER;
 		fi;;
 esac
