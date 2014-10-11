@@ -26,6 +26,10 @@ THEME_PROMPT=(
 	suffix			"$FG[grey4] $CH[ar] $FX[0]"
 	comp_busy		"$FG[grey4]$CH[e]$FX[0]"
 
+	ssh_user_before	""
+	ssh_host_before " @ "
+	ssh_after		" $CH[I] "
+
 	git_fg	'grey4'
 	git_bg	'grey1'
 	git_dirty_ch '*'

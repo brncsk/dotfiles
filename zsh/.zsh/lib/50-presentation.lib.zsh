@@ -125,3 +125,7 @@ function render_status_segment () {
 	echo -n "${caption}"
 	echo -n "${FX[0]}${FG[$c_bg]}${CH[Ar]}${FX[0]}"
 }
+
+function small_caps () {
+	echo -n $1 | sed -e "y/abcdefghijklmnopqrstuvwxyz/ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘqʀꜱᴛᴜᴠᴡxʏᴢ/"
+}

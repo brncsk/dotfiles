@@ -25,6 +25,9 @@ function fancy_wd () {
 			[[ $cwd == $p ]] && m=shallow || m=deep
 			
 			echo -n $THEME_PROMPT[${m}_before]
+			
+			ssh_info
+
 			echo -n $THEME_PROMPT_PATH[$pt]
 			echo -n $THEME_PROMPT[${m}_after]
 
@@ -38,6 +41,12 @@ function fancy_wd () {
 	cwd=${cwd//>/ }
 
 	[[ ${#cwd} -gt 0 ]] && echo -n $cwd
+}
+
+function ssh_info () {
+	[ ! -z $SSH_CONNECTION ] && \
+		small_caps "${THEME_PROMPT[ssh_user_before]}${USER}"
+		small_caps ${THEME_PROMPT[ssh_host_before]}${HOST}${THEME_PROMPT[ssh_after]}"
 }
 
 # Displays git repository information.
