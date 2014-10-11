@@ -44,9 +44,10 @@ function fancy_wd () {
 }
 
 function ssh_info () {
-	[ ! -z $SSH_CONNECTION ] && \
+	[ ! -z $SSH_CONNECTION ] && {
 		small_caps "${THEME_PROMPT[ssh_user_before]}${USER}"
 		small_caps "${THEME_PROMPT[ssh_host_before]}${HOST}${THEME_PROMPT[ssh_after]}"
+	}
 }
 
 # Displays git repository information.
