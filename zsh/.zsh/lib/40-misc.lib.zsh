@@ -33,9 +33,15 @@
 
 # Include <Ctrl+C>'d commands in history
 	function TRAPINT () {
-		zle && print -s -- $BUFFER
+		print -s -r -- $BUFFER
 		return $1
 	}
+
+	function zle-line-init () {
+		zle reset-prompt
+	}
+
+	zle -N zle-line-init
 
 # Syntax highlighting (installed from AUR)
 	source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
