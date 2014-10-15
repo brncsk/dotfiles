@@ -1,7 +1,7 @@
 #!/bin/sh
 REAL_TMUX=/usr/bin/tmux
 if [ "$#" -eq 0 ]; then
-	TMUX= TERM=screen-256color-t $REAL_TMUX -2 new-session -A -s $HOST-default
+	TMUX= TERM=screen-256color-t $REAL_TMUX -2 -A -s "$(hostname)-default" new-session
 else
 	$REAL_TMUX "$@"
 fi
