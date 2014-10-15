@@ -10,6 +10,9 @@ LIB_DIR=~/.zsh/lib
 PLUGIN_DIR=~/.zsh/plugins
 ENABLED_PLUGINS=(archlinux zsh-syntax-highlighting custom-prompt)
 
+# Source .zshenv first
+source ~/.zshenv
+
 # Initialize autocompletion
 autoload -U compinit
 compinit -i

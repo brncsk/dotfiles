@@ -1,7 +1,8 @@
 #!/bin/sh
 
+PREFIX=~/.local/bin
 USERSHELL=/usr/bin/zsh
-TMUX_WRAPPER=/usr/local/bin/tmux
+TMUX_WRAPPER=${PREFIX}/tmux
 
 case $(tty) in
 	*tty*)
@@ -9,7 +10,7 @@ case $(tty) in
 			# We are in tty1, start X.
 			# But first switch off the damn fan.
 			i8kfan 0 0;
-			sudo /usr/local/bin/start-gdm;
+			sudo ${PREFIX}/start-gdm;
 		else
 			# We are in another tty, drop into the default shell.
 			exec $USERSHELL;
