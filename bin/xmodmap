@@ -1,0 +1,7 @@
+#!/bin/sh
+REAL_XMODMAP=/usr/bin/xmodmap
+SETXKBMAP=/usr/bin/setxkbmap
+XMODMAPFILE=${HOME}/.Xmodmap
+[[ $1 == '--no-sleep'  ]] || sleep 10s
+DISPLAY=:0 ${SETXKBMAP}
+DISPLAY=:0 ${REAL_XMODMAP} "${XMODMAPFILE}"

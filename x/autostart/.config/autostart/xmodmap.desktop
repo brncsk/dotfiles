@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Load keyboard mappings
+Exec=/home/brncsk/.local/bin/xmodmap
+Icon=system-run
+X-GNOME-Autostart-enabled=true
