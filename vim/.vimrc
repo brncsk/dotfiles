@@ -24,7 +24,7 @@
 		Plugin 'calvinchengx/vim-mapserver', { 'name': 'mapserver'}
 		Plugin 'tkztmk/vim-vala', { 'name': 'vala' }
 		Plugin 'fs111/pydoc.vim', { 'name': 'pydoc' }
-
+		Plugin 'JuliaLang/julia-vim', { 'name': 'julia' }
 		"Plugin 'taglist'
 		Plugin 'scrooloose/nerdtree'
 		Plugin 'brncsk/vim-powerline', { 'name': 'powerline' }
@@ -69,7 +69,6 @@
 	set undofile
 	set undoreload	 =10000
 	set exrc
-
 " }}}
 " Wildmenu completion ------------------------------------------------------------------------- {{{
 
@@ -125,59 +124,33 @@
 " Tabline ------------------------------------------------------------------------------------- {{{
 	
 	if exists("+showtabline")
-		function! MyTabLine()
-			let s = '%#TabLineBorder#     '
-			let wn = ''
-			let t = tabpagenr()
+		set showtabline=0
+
+		autocmd FocusGained * echo 'FocusGained'
+
+		autocmd VimEnter,BufAdd,BufCreate,FileWritePost,BufEnter,BufUnload,FocusGained * call UpdateTablist()
+		function! UpdateTablist()
 			let i = 1
+			let t = tabpagenr()
+			let tablist = []
 			while i <= tabpagenr('$')
 				let buflist = tabpagebuflist(i)
 				let winnr = tabpagewinnr(i)
-				let s .= '%' . i . 'T'
-				let s .= '%#TabLine' . (i == t ? 'Sel' : '') . 'Border#'
-				let s .= '%#TabLine' . (i == t ? 'Sel' : '' ).'Bg# '
-				let wn = tabpagewinnr(i,'$')
-
-				if tabpagewinnr(i,'$') > 1
-					let s .= '.'
-					let s .= (tabpagewinnr(i,'$') > 1 ? wn : '')
-				end
-
 				let bufnr = buflist[winnr - 1]
-				let file = bufname(bufnr)
-				let buftype = getbufvar(bufnr, 'buftype')
-				if buftype == 'nofile'
-					if file =~ '\/.'
-						let file = substitute(file, '.*\/\ze.', '', '')
-					endif
-				else
-					let file = fnamemodify(file, ':p:t')
-				endif
-				if file == ''
-					let file = '%#TabLine' . (i == t ? 'Sel' : '') .  'NoName# (unsaved buffer) '
-				endif
-				let s .= file
-				let s .= (getbufvar(buflist[winnr - 1], "&mod")?'%#TabLine' . (i == t ? 'Sel' : '') . 'Modified#*':'')
-				let s .= (i == t ? ('%#TabLineSelClose#%' . i . 'X ×%X') : '')
-				let s .= ' %#TabLine' . (i == t ? 'Sel' : '') . 'Border# '
+
+				call extend(tablist, [((i == t) ? '>' : '')
+							\ . fnamemodify(bufname(bufnr), ':p:t')
+							\ . (getbufvar(buflist[winnr - 1], "&mod") ? '*' : '')
+							\ ])
 				let i = i + 1
 			endwhile
-			return s
+			call writefile(tablist, $HOME.'/.tmux/.vim-tablist')
+			silent !tmux refresh-client -S
 		endfunction
-		set stal=2
-		set tabline=%!MyTabLine()
+
+		autocmd FocusLost * silent! rm $HOME.'/.tmux/.vim-tablist'
 	endif
 	
-	hi TabLineSelBorder ctermfg=234 ctermbg=242
-	hi TabLineSelBg term=bold cterm=bold ctermfg=252 ctermbg=234
-	hi TabLineSelModified term=bold cterm=bold ctermfg=1 ctermbg=234
-	hi TabLineSelNoName term=bold,italic cterm=bold,italic ctermfg=252 ctermbg=234
-	hi TabLineSelClose term=NONE ctermbg=234 ctermfg=249
-	hi TabLineModified term=bold cterm=bold ctermfg=1 ctermbg=240
-	hi TabLineBorder ctermfg=240 ctermbg=242
-	hi TabLineNoName term=italic cterm=italic ctermfg=248 ctermbg=240
-	hi TabLineBg ctermfg=248 ctermbg=240
-
 " }}}
 " Searching and movement ---------------------------------------------------------------------- {{{
 
@@ -301,19 +274,7 @@
 " }}}
 " Plugins ------------------------------------------------------------------------------------- {{{
 
-	" Powerline {{{
-	
-
-	" }}}
-
-	" Pastebin {{{
-
-		nnoremap <leader>p call PasteBin
-
-	" }}}
-
 	" NERD Tree {{{
-
 		nnoremap <F2> :NERDTreeToggle<CR>
 		inoremap <F2> <ESC>:NERDTreeToggle<CR>
 
@@ -323,66 +284,30 @@
 		let NERDTreeMinimalUI			= 1
 		let NERDTreeDirArrows			= 1
 		let NERDTreeShowBookmarks		= 1
-
-
 	" }}} 
 	" Zen coding {{{
-	
 		:inoremap <C-Tab> <C-y>,
-
 	" }}}
-	" Scratch pad {{{
-
-		command! ScratchToggle call ScratchToggle()
-		function! ScratchToggle ()
-			if exists("w:is_scratch_window")
-				unlet w:is_scratch_window
-				exec "q"
-			else
-				exec "normal! :Sscratch\<CR>\<C-W>J:resize 13\<CR>"
-				let w:is_scratch_window = 1
-			endif
-		endfunction
-
-		nnoremap <silent> <leader><Tab> :ScratchToggle<CR>
-
-	" }}}
-	" Taglist {{{
-
-		nnoremap <F3> :TlistToggle<CR>
-		inoremap <F3> <ESC>:TlistToggle<CR>i
-
-		let Tlist_Show_One_File		= 1
-		let Tlist_Exit_OnlyWindow	= 1
-		let Tlist_Use_Right_Window	= 1
-		
-	" }}}
-
 " }}}
 " Miscellanea --------------------------------------------------------------------------------- {{{
 	
 	" GTK+-esque tab switching {{{
-
 		nmap		<C-t>		:tabnew<CR>
 		nmap		<ESC>{g		gT
 		nmap		<ESC>{h		gt
 		imap		<C-t>		<Esc>:tabnew<CR>
 		imap		<ESC>{g		<ESC>gTi
 		imap		<ESC>{h		<ESC>gti
-
 	" }}}
 
 	" Vala
-
 		autocmd BufRead *.vala,*.vapi set efm=%f:%l.%c-%[%^:]%#:\ %t%[%^:]%#:\ %m
 		au BufRead,BufNewFile *.vala,*.vapi setfiletype vala
 
 	" GAMS
-	
 		au BufRead,BufNewFile *.gms setfiletype gams
 
 	" MapServer
-
 		au BufRead,BufNewFile *.map setfiletype map
 
 	" NOOOOO
@@ -392,9 +317,7 @@
 		nnoremap	<leader>v	<C-w>s<C-w>j:e $MYVIMRC<CR>
 		nnoremap	<leader>r	:source $MYVIMRC<CR>
 
-	" Pasting from the OS clipboard
-		nnoremap	<leader>p	"+p
-		nnoremap	<leader>P	"+P
+		set clipboard=unnamed
 
 	" Reformat paragraphs
 		nnoremap	Q			gqip
@@ -402,64 +325,6 @@
 	" Save as root
 		cmap		w!!			w !sudo tee % >/dev/null
 
-	" Shortcuts for file types
-		nnoremap	_c			:set ft=css<CR>
-		nnoremap	_h			:set ft=html<CR>
-		nnoremap	_o			:set ft=org<CR>
-		nnoremap	_p			:set ft=php<CR>
-		nnoremap	_pr			:set ft=processing<CR>
-		nnoremap	_s			:set ft=sh<CR>
-
 	" Resize splits when the window is resized
 		au VimResized * exe "normal! \<c-w>="
-
-	" Compile and run Processing code
-	" TODO Make this stuff configurable and move it to a separate plugin
-		function! RunProcessing () " {{{
-			wa
-			let proc_appname=fnamemodify(bufname("%"), ":p:h:t")
-			let proc_path=fnamemodify(bufname("%"), ":p:h")
-			let native_lib_path="/opt/processing/modes/java/libraries/opengl/library/linux32/"
-			let classpath=
-				\"\"/opt/processing/java/lib/rt.jar:".
-				\"/opt/processing/java/lib/tools.jar:".
-				\"/opt/processing/lib/antlr.jar:".
-				\"/opt/processing/lib/core.jar:".
-				\"/opt/processing/lib/ecj.jar:".
-				\"/opt/processing/lib/jna.jar:".
-				\"/opt/processing/lib/pde.jar:".
-				\"/opt/processing/modes/java/libraries/opengl/library/opengl.jar:".
-				\"/opt/processing/modes/java/libraries/opengl/library/jogl.jar:".
-				\"/opt/processing/modes/java/libraries/opengl/library/gluegen-rt.jar:".
-				\"/data/code/Ani/library/Ani.jar:".
-				\".\" "
-
-			exec "! rm " . proc_path . "/*.class"
-
-			exec "! cd " . proc_path .
-				\" && /opt/processing/java/bin/javac -classpath ".classpath.
-				\" *.java"
-
-			exec "! cd " . proc_path .
-				\" && /opt/processing/java/bin/java -cp ".classpath.
-				\" -Djava.library.path=".native_lib_path.
-				\" processing.core.PApplet ".proc_appname
-
-		endfunction "}}}
-
-		nnoremap <F5> :call RunProcessing()<CR>
-		inoremap <F5> <ESC>:call RunProcessing()<CR>
-
-	" Save next diary entry
-		function! SaveDiary () " {{{
-
-			let path="/data/documents/diary/"
-			let date=strftime("%Y-%m-%d")
-
-			w path.date.".txt" 
-
-		endfunction "}}}
-
-		nnoremap :wd<CR> :call SaveDiary()<CR>
-
 " }}}
