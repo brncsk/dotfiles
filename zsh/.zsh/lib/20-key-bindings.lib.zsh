@@ -50,6 +50,7 @@ bindkey ' ' magic-space
 # S-Tab for moving backwards in the completion menu
 bindkey '^[[Z' reverse-menu-complete
 
+# M-Return autojumps to the current line
 function complete_and_autojump () {
 	BUFFER="j ${BUFFER}"
 	zle accept-line

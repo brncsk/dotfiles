@@ -1,11 +1,6 @@
 # Enable automatic corrections (TODO: reconsider disabling this, it's more annoying than useful)
 	setopt correct
 
-# Full-screen command line editing
-	autoload -U edit-command-line
-	zle -N edit-command-line
-	bindkey '\C-e' edit-command-line
-
 # Set up directory stack and provide a utility function
 # for creating than switching to a new directory
 	setopt cdablevars
@@ -14,7 +9,7 @@
 	setopt pushd_ignore_dups
 
 	function mcd () { 
-	mkdir -p "$1" && cd "$1"; 
+		mkdir -p "$1" && cd "$1"; 
 	}
 
 # History configuration

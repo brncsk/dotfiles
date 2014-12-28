@@ -2,8 +2,8 @@ alias _='sudo'
 
 alias sl=ls
 
-alias ls='ls    -l --human-readable --group-directories-first --color=auto'
-alias lS='ls -S -l --human-readable --group-directories-first --color=auto'
+alias ls='ls     -l --human-readable --group-directories-first --color=auto'
+alias lS='ls  -S -l --human-readable --group-directories-first --color=auto'
 alias lsa='ls -a -l --human-readable --group-directories-first --color=auto'
 
 alias  o='gnome-open'
@@ -12,12 +12,6 @@ alias so='gksudo gnome-open'
 alias wd='watch -tc "dmesg | tail -$(tput lines)"'
 
 # Directories
-
-alias cd..='cd    ..'
-alias cd...='cd   ../..'
-alias cd....='cd  ../../..'
-alias cd.....='cd ../../../..'
-alias cd/='cd /'
 
 alias ..='cd    ..'
 alias ...='cd   ../..'
@@ -38,8 +32,10 @@ alias d='dirs -v'
 
 # Git
 
-alias gc='git commit -av'
+alias gc='git commit -v'
 compdef _git gc=git-commit
+
+alias gc='git commit'
 
 alias gst='git status'
 compdef _git gst=git-status
