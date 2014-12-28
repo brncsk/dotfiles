@@ -5,10 +5,11 @@ function status_segment_sound {
 	local swn=$((1 + (vol / 34)))
 
 	if [[ $st == 'on' ]]; then
-		color="sblue$((vol / 10))"
-		caption="$CH[sp]$CH[sw$swn]  $(printf %3d $vol)%"
+		[[ vol -gt 100 ]] && volc=100 || volc=vol;
+		color="sblue$(((volc / 10) + 1))"
+		caption="$CH[sp]$CH[sw$((1 + (volc / 34)))]  $(printf %3d $vol)%"
 	else
-		color='grey4'
+		color='grey3'
 		caption="$CH[sp]× $FX[i+](on mute)$FX[i-]"
 	fi
 	

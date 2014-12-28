@@ -4,7 +4,7 @@
 
 	export THEME_BACKEND=tmux
 	SEGMENT_DIR=~/.tmux/segments
-	SEGMENTS=(sound wifi battery loadavg acpitemp clock)
+	SEGMENTS=(ticker sound wifi battery loadavg acpitemp clock)
 	
 	source ~/.zsh/lib/50-presentation.lib.zsh
 	source ~/.zsh/lib/60-theme.lib.zsh

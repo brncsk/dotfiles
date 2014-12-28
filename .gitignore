@@ -10,3 +10,4 @@ vim/.vim/bundle/*
 vim/.vim/.VimballRecord
 vim/.vim/.netrwhist
 zsh/.zsh/cache/*
+tmux/.tmux/.vim-tablist
