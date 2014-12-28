@@ -11,25 +11,28 @@ function term_type () {
 
 # Fancy up the current working directory for display
 function fancy_wd () {
-	local cwd p pt m
+	local cwd p pt m simple
 
 	[[ $PWD == '/' ]] && cwd=('/') || {
-		cwd=${PWD:gs/ />}
+		cwd="${PWD:gs/ />}"
 		cwd=(/ "${(s:/:)${cwd[2,-1]}}")
 	}
+
+	[[ $1 == true ]] && simple=_simple || simple=
 
 	for pt in ${(Ok)THEME_PROMPT_PATH}; do
 		[[ $pt == '/' ]] && p=("/") || p=(/ "${(s:/:)${pt[2,-1]}}")
 
 		[[ ${cwd[1,${#p}]} == $p ]] && {
 			[[ $cwd == $p ]] && m=shallow || m=deep
-			
-			echo -n $THEME_PROMPT[${m}_before]
-			
-			ssh_info
 
-			echo -n $THEME_PROMPT_PATH[$pt]
-			echo -n $THEME_PROMPT[${m}_after]
+			echo -n "$THEME_PROMPT[${m}_before${simple}]"
+			
+			[[ $simple != '' ]] && ssh_info
+
+			echo -n "$THEME_PROMPT_PATH[$pt]"
+
+			echo -n "$THEME_PROMPT[${m}_after${simple}]"
 
 			cwd=$cwd[${#p}+1,-1]
 			
@@ -37,8 +40,8 @@ function fancy_wd () {
 		}
 	done
 
-	cwd=${cwd// /$THEME_PROMPT[dir_sep]}
-	cwd=${cwd//>/ }
+		cwd="${cwd// /$THEME_PROMPT[dir_sep${simple}]}"
+		cwd="${cwd//>/ }"
 
 	[[ ${#cwd} -gt 0 ]] && echo -n $cwd
 }
@@ -63,6 +66,10 @@ function git_prompt_info () {
 	render_status_segment "$THEME_PROMPT[git_bg]" "$THEME_PROMPT[git_fg]" \
 		"$CH[b]  ${ref#refs/heads/}@$sha$dirty"
 	echo;
+}
+
+function precmd () {
+	print -Pn '\ek'$(fancy_wd true)'\e\\'
 }
 
 local return_code="%(?..%?)"

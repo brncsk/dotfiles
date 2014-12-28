@@ -36,6 +36,7 @@ CH=(
 	
 	f	''					# Fan
 	c	'⌚'					# Clock
+	V	''					# VIM
 )
 
 NAMED_COLORS=(

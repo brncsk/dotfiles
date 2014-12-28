@@ -3,7 +3,7 @@
 typeset -Ag THEME_DEFAULTS
 THEME_DEFAULTS=(
 	default_fg 'white'
-	default_bg 'grey3'
+	default_bg 235
 
 	warning_bg 'yellow'
 	warning_fg 'black'
@@ -17,12 +17,17 @@ THEME_DEFAULTS=(
 typeset -Ag THEME_PROMPT
 THEME_PROMPT=(
 	shallow_before	"$FG[$prompt_fg]  "
+	shallow_before_simple " "
 	shallow_after	" "
+	shallow_after_simple "  "
 
 	deep_before		"$FG[$prompt_fg]$FX[r+]  "
+	deep_before_simple " "
 	deep_after		"  $FX[r-]$CH[AR]$FX[0]$FX[b+]$FG[$prompt_fg] "
+	deep_after_simple "  $CH[ar] "
 
 	dir_sep			"$FX[b-]$FG[grey4] $CH[ar] $FG[$prompt_fg]$FX[b+]"
+	dir_sep_simple	"  $CH[ar] "
 	suffix			"$FG[grey4] $CH[ar] $FX[0]"
 	comp_busy		"$CH[e]"
 
@@ -74,6 +79,11 @@ THEME_BATTERY=(
 typeset -Ag THEME_CLOCK
 THEME_CLOCK=(
 	format "${TMUX_FX[b+]}%Y. %B %e. ${CH[c]}  %H:%M${TMUX_FX[b-]}"
+)
+
+typeset -Ag THEME_VIM_TABLINE
+THEME_VIM_TABLINE=(
+	
 )
 
 # Highlighter config
