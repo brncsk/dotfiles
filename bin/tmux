@@ -1,6 +1,6 @@
 #!/bin/sh
 REAL_TMUX=/usr/bin/tmux
-
+[ ! -x ${REAL_TMUX} ] && { exit 1; }
 if [ "$#" -eq 0 ]; then
 	TMUX= TERM=screen-256color-t $REAL_TMUX \
 		-2 \
