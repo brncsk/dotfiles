@@ -46,7 +46,7 @@
 	setopt long_list_jobs
 
 # Enable syntax highlighting in some tools
-	(( $+commands[highlight] )) && {
+	[[ -x $(which highlight) ]] && {
 		function cat sed awk grep () {
 			local syntax
 

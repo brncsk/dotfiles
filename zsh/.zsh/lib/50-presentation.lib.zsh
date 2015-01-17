@@ -137,7 +137,7 @@ function render_status_segment_split () {
 		caption_1=$1
 		caption_2=$2
 	elif [ $# -eq 3 ]; then
-		if [[ $FG[$1] ]]; then
+		if [[ ${FG[${1}]} != '' ]]; then
 			c_fg=$THEME_DEFAULTS[default_fg]
 			i_fg=$1
 			caption_1=$2
