@@ -28,7 +28,7 @@ function fancy_wd () {
 
 			echo -n "$THEME_PROMPT[${m}_before${simple}]"
 			
-			[[ $simple != '' ]] && ssh_info
+			[[ $simple == '' ]] && ssh_info
 
 			echo -n "$THEME_PROMPT_PATH[$pt]"
 

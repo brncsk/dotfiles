@@ -32,7 +32,7 @@ THEME_PROMPT=(
 	comp_busy		"$CH[e]"
 
 	ssh_user_before	""
-	ssh_host_before " @ "
+	ssh_host_before " • "
 	ssh_after		" $CH[I] "
 
 	git_fg	'grey4'
