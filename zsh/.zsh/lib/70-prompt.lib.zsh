@@ -28,7 +28,7 @@ function fancy_wd () {
 
 			echo -n "$THEME_PROMPT[${m}_before${simple}]"
 			
-			[[ $simple != '' ]] && ssh_info
+			[[ $simple == '' ]] && ssh_info
 
 			echo -n "$THEME_PROMPT_PATH[$pt]"
 
@@ -40,14 +40,14 @@ function fancy_wd () {
 		}
 	done
 
-		cwd="${cwd// /$THEME_PROMPT[dir_sep${simple}]}"
+		cwd="${cwd// /${THEME_PROMPT[dir_sep${simple}]}}"
 		cwd="${cwd//>/ }"
 
 	[[ ${#cwd} -gt 0 ]] && echo -n $cwd
 }
 
 function ssh_info () {
-	[ ! -z $SSH_CONNECTION ] && {
+	[ ! -z ${SSH_CONNECTION} ] && {
 		small_caps "${THEME_PROMPT[ssh_user_before]}${USER}"
 		small_caps "${THEME_PROMPT[ssh_host_before]}${HOST}${THEME_PROMPT[ssh_after]}"
 	}
@@ -63,8 +63,8 @@ function git_prompt_info () {
 	[[ -n $(git status -s --ignore-submodules=dirty 2>/dev/null) ]] && \
 		dirty=" $FG[${THEME_PROMPT[git_dirty_fg]:-$DEFAULT_DIRTY_FG}]${THEME_PROMPT[git_dirty_ch]:-$DEFAULT_DIRTY_CHAR}"
 
-	render_status_segment "$THEME_PROMPT[git_bg]" "$THEME_PROMPT[git_fg]" \
-		"$CH[b]  ${ref#refs/heads/}@$sha$dirty"
+	render_status_segment "${THEME_PROMPT[git_bg]}" "${THEME_PROMPT[git_fg]}" \
+		"$CH[b]  ${ref#refs/heads/}${THEME_PROMPT[git_sep]}$sha$dirty"
 	echo;
 }
 
