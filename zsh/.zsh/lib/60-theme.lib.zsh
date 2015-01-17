@@ -2,14 +2,20 @@
 
 typeset -Ag THEME_DEFAULTS
 THEME_DEFAULTS=(
-	default_fg 'white'
-	default_bg 235
+	default_fg black
+	default_bg 236
+	default_icon_bg 234
+	default_icon_fg white
 
 	warning_bg 'yellow'
+	warning_icon_bg 172
 	warning_fg 'black'
+	warning_icon_fg 'black'
 
 	critical_bg 'red'
+	critical_icon_bg 88
 	critical_fg 'white'
+	critical_icon_fg 'white'
 )
 
 [ $UID -eq 0 ] && prompt_fg=red || prompt_fg=blue
@@ -78,7 +84,7 @@ THEME_BATTERY=(
 
 typeset -Ag THEME_CLOCK
 THEME_CLOCK=(
-	format "${TMUX_FX[b+]}%Y. %B %e. ${CH[c]}  %H:%M${TMUX_FX[b-]}"
+	format "${TMUX_FX[b+]}${FG[white]}%Y. %B %e. ${CH[c]}  %H:%M:%S${TMUX_FX[b-]}"
 )
 
 typeset -Ag THEME_VIM_TABLINE

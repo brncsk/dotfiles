@@ -15,8 +15,9 @@ else
 	bindkey "\e[3~" delete-char
 fi
 
-# M-l for ls
+# M-l for ls, M-L for ls -a
 bindkey -s '\el' "ls\n"
+bindkey -s '\eL' "lsa\n"
 
 # M-. for cd ..
 bindkey -s '\e.' "..\n"
@@ -32,6 +33,17 @@ bindkey -s '\eh' "~\n"
 
 # M-d for /data
 bindkey -s '\ed' "/data\n"
+
+# M-Space for qalc
+function _qalc_then_xclip () {
+	print -s -r -- ${BUFFER}
+	echo
+	qalc +u8 -t "${${${${BUFFER:s/huf/HUF}:s/usd/USD}:s/eur/EUR}:s/ in / to }" | tee /dev/fd/2 | xclip -selection clipboard
+	zle send-break
+}
+zle -N _qalc_then_xclip
+bindkey '\e ' _qalc_then_xclip
+
 
 # M-e edits the current line
 autoload edit-command-line
@@ -51,9 +63,9 @@ bindkey ' ' magic-space
 bindkey '^[[Z' reverse-menu-complete
 
 # M-Return autojumps to the current line
-function complete_and_autojump () {
+function _complete_and_autojump () {
 	BUFFER="j ${BUFFER}"
 	zle accept-line
 }
-zle -N complete_and_autojump
-bindkey '\e\n' complete_and_autojump
+zle -N _complete_and_autojump
+bindkey '\e\n' _complete_and_autojump

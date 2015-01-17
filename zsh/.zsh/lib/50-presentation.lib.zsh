@@ -122,9 +122,39 @@ function render_status_segment () {
 	[ -z $c_fg ] && c_fg=$THEME_DEFAULTS[default_fg]
 	[ -z $c_bg ] && c_bg=$THEME_DEFAULTS[default_bg]
 
-	echo -n "${FG[$c_bg]}${CH[Al]}${BG[$c_bg]}${FG[$c_fg]}"
+	echo -n " ${FG[$c_bg]}${CH[Al]}${BG[$c_bg]}${FG[$c_fg]}"
 	echo -n "${caption}"
 	echo -n "${FX[0]}${FG[$c_bg]}${CH[Ar]}${FX[0]}"
+}
+
+function render_status_segment_split () {
+	c_bg=$THEME_DEFAULTS[default_bg]
+	i_bg=$THEME_DEFAULTS[default_icon_bg]
+	
+	if [ $# -eq 2 ]; then
+		c_fg=$THEME_DEFAULTS[default_fg]
+		i_fg=$THEME_DEFAULTS[default_icon_fg]
+		caption_1=$1
+		caption_2=$2
+	elif [ $# -eq 3 ]; then
+		if [[ $FG[$1] ]]; then
+			c_fg=$THEME_DEFAULTS[default_fg]
+			i_fg=$1
+			caption_1=$2
+			caption_2=$3
+		else
+			c_bg=$THEME_DEFAULTS[${1}_bg]
+			i_bg=$THEME_DEFAULTS[${1}_icon_bg]
+			c_fg=$THEME_DEFAULTS[${1}_fg]
+			i_fg=$THEME_DEFAULTS[${1}_icon_fg]
+			caption_1=$2
+			caption_2=$3
+		fi
+	fi
+	
+	echo -n " ${FG[$i_bg]}${CH[Al]}${BG[$i_bg]}${FG[$i_fg]}"
+	echo -n " ${caption_1} ${FG[$c_fg]}${BG[$c_bg]} ${caption_2} "
+	echo -n "${FX[0]}${FG[$c_bg]}${CH[Ar]}"
 }
 
 function small_caps () {
