@@ -36,8 +36,9 @@ THEME_PROMPT=(
 	ssh_after		" $CH[I] "
 
 	git_fg	'grey4'
+	git_sep ' • '
 	git_bg	'grey1'
-	git_dirty_ch '*'
+	git_dirty_ch '★ '
 )
 		
 typeset -Ag THEME_PROMPT_PATH
