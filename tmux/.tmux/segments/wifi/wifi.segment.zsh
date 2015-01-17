@@ -17,11 +17,13 @@ function status_segment_wifi {
 	if [ $qual -lt ${THEME_WIFI[mid_min]:-$DEFAULT_MID_MIN} ]; then m='low'; fi
 
 	if [[ $essid != 'off/any' ]]; then
-		caption="$CH[w$qn] $(printf %3d $qual)% [$essid]"
+		caption_1="$CH[w$qn] "
+		caption_2="$FX[b+]$FG[232]$(printf %3d $qual)%$FX[b-] $FX[i+]$FG[233]($essid)$FX[i-]"
 	else
 		m='off'
-		caption="$CH[w3] $TMUX_FX[i+](off)$TMUX_FX[i-]"
+		caption_1="$CH[w3] "
+		caption_2="$TMUX_FX[i+](off)$TMUX_FX[i-]"
 	fi
 
-	render_status_segment "" "$THEME_WIFI[${m}_fg]" " $caption "
+	render_status_segment_split "$THEME_WIFI[${m}_fg]" "$caption_1" "$caption_2"
 }

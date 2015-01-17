@@ -2,10 +2,10 @@
 
 [ -n $TMUX ] && () {
 
-	export THEME_BACKEND=tmux
 	SEGMENT_DIR=~/.tmux/segments
-	SEGMENTS=(ticker sound wifi battery loadavg acpitemp clock)
+	SEGMENTS=(weather sound wifi battery acpitemp loadavg clock)
 	
+	export THEME_BACKEND=tmux
 	source ~/.zsh/lib/50-presentation.lib.zsh
 	source ~/.zsh/lib/60-theme.lib.zsh
 

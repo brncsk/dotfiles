@@ -2,16 +2,14 @@ function status_segment_battery {
 	acpi=$(acpi -b)
 	local ch=$(echo $acpi | cut -f2 -d',' | tr -cd '[:digit:]')
 	local st=$(echo $acpi | cut -f3 -d' ' | tr -d ',' | tr '[A-Z]' '[a-z]')
-	local tm=$(echo $acpi | cut -f3 -d',' | tr -cd '[:digit:]:' | cut -b1-5)
+	local tm=$(echo $acpi | cut -f3 -d',' | tr -cd '[:digit:]:' | cut -b1-5 | sed -e 's/65327/–/')
 	local m=$st
     local charging
 	local icon
 	local bat_status
 
 	if [[ $ch == '' ]]; then
-		icon='(Not present.)'
-		bat_status='notpresent'
-        charging=$CH[bd]
+		return;
 	else
 		bat_status='charging'
         charging=$CH[ch]
@@ -52,6 +50,5 @@ function status_segment_battery {
 	
 	fi
 		
-	render_status_segment "$THEME_BATTERY[${bat_status}_bg]" "$THEME_BATTERY[${bat_status}_fg]" \
-		" $charging $icon $tm "
+	render_status_segment_split "$THEME_BATTERY[${bat_status}_fg]" "$charging $icon" "$tm"
 }

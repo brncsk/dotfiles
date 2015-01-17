@@ -5,21 +5,23 @@ function status_segment_acpitemp {
 	local low_max=${THEME_TEMP[low_max]:-$DEFAULT_LOW_MAX}
 	local mid_max=${THEME_TEMP[mid_max]:-$DEFAULT_MID_MAX}
 
-	tempdata=`acpi -t | sed -e 's/\(Thermal 0: \|degrees C\|,\)//g'`
-	local tempstat=`echo $tempdata | cut -d' ' -f1`
-	local tempval=$((`echo $tempdata | cut -d' ' -f2`))
+	local tempdata="$(acpi -t | sed -e 's/\(Thermal 0: \|degrees C\|,\)//g')"
+	local tempstat=`echo "${tempdata}" | cut -d' ' -f1`
+	local tempval=$(printf '%d' $(echo "${tempdata}" | cut -d' ' -f2))
 	
-	if [[ `i8kfan` != '0 0' ]]; then
-		fan_status="$CH[f]  "
-	fi
+	[[ $(i8kfan) == '0 0' ]] || fan_status="$CH[f] "
 
-	if [[ $tempval -lt $low_max ]]; then
-		severity='default'
-	elif [[ $tempval -lt $mid_max ]]; then
-		severity='warning'
+	if [ ${tempval} -lt ${low_max} ]; then
+		severity='default';
+	elif [ ${tempval} -lt ${mid_max} ]; then
+		severity='warning';
 	else
 		severity='critical'
 	fi
 
-	render_status_segment $severity "$fan_status$tempval °C"
+	tempval="${tempval} °C"
+
+	[[ $fan_status ]] &&
+		render_status_segment_split "$severity" "$fan_status" "$tempval" ||
+		render_status_segment "$severity" "$tempval"
 }
