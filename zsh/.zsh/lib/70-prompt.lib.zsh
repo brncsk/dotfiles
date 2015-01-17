@@ -28,7 +28,7 @@ function fancy_wd () {
 
 			echo -n "$THEME_PROMPT[${m}_prefix${simple}]"
 			
-			[[ $simple == '' ]] && ssh_info
+			[[ $simple == '' ]] && ssh_info $m
 
 			echo -n "$THEME_PROMPT_PATH[$pt]"
 
@@ -48,8 +48,11 @@ function fancy_wd () {
 
 function ssh_info () {
 	[ ! -z ${SSH_CONNECTION} ] && {
-		small_caps "${THEME_PROMPT[ssh_user_prefix]}${USER}"
-		small_caps "${THEME_PROMPT[ssh_host_prefix]}${HOST}${THEME_PROMPT[ssh_suffix]}"
+		echo -n "${THEME_PROMPT[$1_ssh_user_prefix]}"
+		small_caps "${USER}"
+		echo -n "${THEME_PROMPT[$1_ssh_host_prefix]}"
+		small_caps "${HOST}"
+		echo -n "${THEME_PROMPT[$1_ssh_suffix]}"
 	}
 }
 
