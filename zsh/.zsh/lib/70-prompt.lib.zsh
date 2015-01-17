@@ -26,13 +26,13 @@ function fancy_wd () {
 		[[ ${cwd[1,${#p}]} == $p ]] && {
 			[[ $cwd == $p ]] && m=shallow || m=deep
 
-			echo -n "$THEME_PROMPT[${m}_before${simple}]"
+			echo -n "$THEME_PROMPT[${m}_prefix${simple}]"
 			
 			[[ $simple == '' ]] && ssh_info
 
 			echo -n "$THEME_PROMPT_PATH[$pt]"
 
-			echo -n "$THEME_PROMPT[${m}_after${simple}]"
+			echo -n "$THEME_PROMPT[${m}_suffix${simple}]"
 
 			cwd=$cwd[${#p}+1,-1]
 			
@@ -48,24 +48,39 @@ function fancy_wd () {
 
 function ssh_info () {
 	[ ! -z ${SSH_CONNECTION} ] && {
-		small_caps "${THEME_PROMPT[ssh_user_before]}${USER}"
-		small_caps "${THEME_PROMPT[ssh_host_before]}${HOST}${THEME_PROMPT[ssh_after]}"
+		small_caps "${THEME_PROMPT[ssh_user_prefix]}${USER}"
+		small_caps "${THEME_PROMPT[ssh_host_prefix]}${HOST}${THEME_PROMPT[ssh_suffix]}"
 	}
 }
 
 # Displays git repository information.
 function git_prompt_info () {
-	DEFAULT_DIRTY_CHAR='*'
-	DEFAULT_DIRTY_FG='red'
-
 	ref=$(git symbolic-ref HEAD 2>/dev/null) || return
 	sha=$(git rev-parse --short HEAD 2>/dev/null)
-	[[ -n $(git status -s --ignore-submodules=dirty 2>/dev/null) ]] && \
-		dirty=" $FG[${THEME_PROMPT[git_dirty_fg]:-$DEFAULT_DIRTY_FG}]${THEME_PROMPT[git_dirty_ch]:-$DEFAULT_DIRTY_CHAR}"
 
-	render_status_segment "${THEME_PROMPT[git_bg]}" "${THEME_PROMPT[git_fg]}" \
-		"$CH[b]  ${ref#refs/heads/}${THEME_PROMPT[git_sep]}$sha$dirty"
+	render_status_segment_split "$(parse_git_status) " \
+		"${THEME_PROMPT[git_branch_prefix]}${ref#refs/heads/}${THEME_PROMPT[git_sha_prefix]}$sha${THEME_PROMPT[git_sha_suffix]}"
 	echo;
+}
+
+# Parses git status
+function parse_git_status () {
+	local GIT_DIR="$(git rev-parse --git-dir 2> /dev/null)"
+	local s=''
+
+	[[ -n $(git ls-files --other --exclude-standard 2>/dev/null) ]] && \
+		s="${s}${FG[${THEME_PROMPT[git_untracked_fg]}]}${THEME_PROMPT[git_untracked_ch]}"
+
+	[[ -n $(git status -s --ignore-submodules=dirty 2>/dev/null) ]] && \
+		s="${s}${FG[${THEME_PROMPT[git_dirty_fg]}]}${THEME_PROMPT[git_dirty_ch]}"
+
+	[[ -n $(git diff --cached --quiet 2>/dev/null) ]] && \
+		s="${s}${FG[${THEME_PROMPT[git_dirty_fg]}]}${THEME_PROMPT[git_staged_ch]}"
+
+	[[ -n $GIT_DIR ]] && [[ -r $GIT_DIR/MERGE_HEAD ]] && \
+		s="${s}${FG[${THEME_PROMPT[git_merging_fg]}]}${THEME_PROMPT[git_merging_ch]}"
+
+	[[ $s == '' ]] && { echo -n ${THEME_PROMPT[git_default_ch]} } || { echo -n ${s} }
 }
 
 function precmd () {

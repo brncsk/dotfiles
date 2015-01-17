@@ -22,36 +22,49 @@ THEME_DEFAULTS=(
 
 typeset -Ag THEME_PROMPT
 THEME_PROMPT=(
-	shallow_before	"$FG[$prompt_fg]  "
-	shallow_before_simple " "
-	shallow_after	" "
-	shallow_after_simple "  "
+	shallow_prefix	"${FG[$prompt_fg]}  "
+	shallow_prefix_simple " "
+	shallow_suffix	" "
+	shallow_suffix_simple "  "
 
-	deep_before		"$FG[$prompt_fg]$FX[r+]  "
-	deep_before_simple " "
-	deep_after		"  $FX[r-]$CH[AR]$FX[0]$FX[b+]$FG[$prompt_fg] "
-	deep_after_simple "  $CH[ar] "
+	deep_prefix		"${FG[$prompt_fg]}${FX[r+]}  "
+	deep_prefix_simple " "
+	deep_suffix		"  ${FX[r-]}${CH[AR]}${FX[0]}${FX[b+]}${FG[$prompt_fg]} "
+	deep_suffix_simple "  ${CH[ar]} "
 
-	dir_sep			"$FX[b-]$FG[grey4] $CH[ar] $FG[$prompt_fg]$FX[b+]"
-	dir_sep_simple	"  $CH[ar] "
-	suffix			"$FG[grey4] $CH[ar] $FX[0]"
-	comp_busy		"$CH[e]"
+	dir_sep			"${FX[b-]}${FG[grey4]} ${CH[ar]} ${FG[$prompt_fg]}${FX[b+]}"
+	dir_sep_simple	"  ${CH[ar]} "
+	suffix			"${FG[grey4]} ${CH[ar]} ${FX[0]}"
+	comp_busy		"${CH[e]}"
 
-	ssh_user_before	""
-	ssh_host_before " • "
-	ssh_after		" $CH[I] "
+	ssh_user_prefix	""
+	ssh_host_prefix " • "
+	ssh_suffix		" ${CH[I]} "
 
-	git_fg	'grey4'
-	git_sep ' • '
-	git_bg	'grey1'
-	git_dirty_ch '★ '
+	git_branch_prefix "${FX[b+]}${FG[232]}"
+	git_sha_prefix "${FX[b-]}${FX[i+]}${FG[233]} ("
+	git_sha_suffix ")"
+
+	git_default_ch "${CH[b]}"
+
+	git_untracked_fg '196'
+	git_untracked_ch '★'
+
+	git_dirty_fg '202'
+	git_dirty_ch '★'
+
+	git_staged_fg '118'
+	git_staged_ch '★'
+
+	git_merging_fg '163'
+	git_mergint_ch '⚡︎'
 )
 		
 typeset -Ag THEME_PROMPT_PATH
 THEME_PROMPT_PATH=(
 	'/'		'/'
-	"$HOME" $CH[h]
-	"/data" $CH[d]
+	"$HOME" ${CH[h]}
+	"/data" ${CH[d]}
 )
 
 typeset -Ag THEME_WIFI
@@ -71,11 +84,11 @@ THEME_BATTERY=(
 	full_fg		'green'
 	dch_ok_fg	'green'
 
-	dch_warn_fg $THEME_DEFAULTS[warning_fg]
-	dch_warn_bg $THEME_DEFAULTS[warning_bg]
+	dch_warn_fg ${THEME_DEFAULTS[warning_fg]}
+	dch_warn_bg ${THEME_DEFAULTS[warning_bg]}
 	
-	dch_crit_fg $THEME_DEFAULTS[critical_fg]
-	dch_crit_bg $THEME_DEFAULTS[critical_bg]
+	dch_crit_fg ${THEME_DEFAULTS[critical_fg]}
+	dch_crit_bg ${THEME_DEFAULTS[critical_bg]}
 
 	notpresent_fg 'grey4'
 

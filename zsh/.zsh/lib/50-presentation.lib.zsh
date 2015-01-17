@@ -154,7 +154,7 @@ function render_status_segment_split () {
 	
 	echo -n " ${FG[$i_bg]}${CH[Al]}${BG[$i_bg]}${FG[$i_fg]}"
 	echo -n " ${caption_1} ${FG[$c_fg]}${BG[$c_bg]} ${caption_2} "
-	echo -n "${FX[0]}${FG[$c_bg]}${CH[Ar]}"
+	echo -n "${FX[0]}${FG[$c_bg]}${CH[Ar]}${FX[0]}"
 }
 
 function small_caps () {
