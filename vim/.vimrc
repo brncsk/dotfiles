@@ -66,9 +66,13 @@
 	set splitright
 	set title
 	set ttyfast
-	set undofile
-	set undoreload	 =10000
 	set exrc
+
+	if exists('+undofile')
+		set undofile
+		set undoreload	=10000
+		set undodir		=~/.vim/tmp/undo//		" Undo files
+	endif
 " }}}
 " Wildmenu completion ------------------------------------------------------------------------- {{{
 
@@ -95,12 +99,14 @@
 	set wrap
 	set textwidth		=100
 	set formatoptions	=qrn1tc
-	set colorcolumn		=+1
+
+	if exists('+colorcolumn')
+		set colorcolumn		=+1
+	endif
 
 " }}}
 " Backups ------------------------------------------------------------------------------------- {{{
 
-	set undodir		=~/.vim/tmp/undo//		" Undo files
 	set backupdir	=~/.vim/tmp/backup//	" Backups
 	set directory	=~/.vim/tmp/swap//		" Swap files
 	set backup								" Enable backups
