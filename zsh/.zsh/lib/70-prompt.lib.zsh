@@ -68,19 +68,27 @@ function parse_git_status () {
 	local GIT_DIR="$(git rev-parse --git-dir 2> /dev/null)"
 	local s=''
 
-	[[ -n $(git ls-files --other --exclude-standard 2>/dev/null) ]] && \
+	if [[ -n $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
 		s="${s}${FG[${THEME_PROMPT[git_untracked_fg]}]}${THEME_PROMPT[git_untracked_ch]}"
+	fi
 
-	[[ -n $(git status -s --ignore-submodules=dirty 2>/dev/null) ]] && \
+	if ! git diff --quiet 2> /dev/null; then
 		s="${s}${FG[${THEME_PROMPT[git_dirty_fg]}]}${THEME_PROMPT[git_dirty_ch]}"
+	fi
 
-	[[ -n $(git diff --cached --quiet 2>/dev/null) ]] && \
-		s="${s}${FG[${THEME_PROMPT[git_dirty_fg]}]}${THEME_PROMPT[git_staged_ch]}"
+	if ! git diff --cached --quiet 2> /dev/null; then
+		s="${s}${FG[${THEME_PROMPT[git_staged_fg]}]}${THEME_PROMPT[git_staged_ch]}"
+	fi
 
-	[[ -n $GIT_DIR ]] && [[ -r $GIT_DIR/MERGE_HEAD ]] && \
+	if [[ -n $GIT_DIR ]] && [[ -r $GIT_DIR/MERGE_HEAD ]]; then
 		s="${s}${FG[${THEME_PROMPT[git_merging_fg]}]}${THEME_PROMPT[git_merging_ch]}"
+	fi
 
-	[[ $s == '' ]] && { echo -n ${THEME_PROMPT[git_default_ch]} } || { echo -n ${s} }
+	[[ $s == '' ]] && { 
+		echo -n "${FG[${THEME_PROMPT[git_default_fg]}]}${THEME_PROMPT[git_default_ch]}"
+	} || {
+		echo -n "${s}"
+	}
 }
 
 function precmd () {
@@ -93,4 +101,4 @@ ZLE_RPROMPT_INDENT=0
 setopt PROMPT_SUBST
 
 PS1='$(fancy_wd)'$THEME_PROMPT[suffix]
-RPS1='$(git_prompt_info) '
+RPS1='$(git_prompt_info)'

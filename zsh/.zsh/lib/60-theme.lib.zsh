@@ -2,10 +2,10 @@
 
 typeset -Ag THEME_DEFAULTS
 THEME_DEFAULTS=(
-	default_fg black
+	default_fg 'black'
 	default_bg 236
 	default_icon_bg 234
-	default_icon_fg white
+	default_icon_fg 'white'
 
 	warning_bg 'yellow'
 	warning_icon_bg 172
@@ -18,7 +18,7 @@ THEME_DEFAULTS=(
 	critical_icon_fg 'white'
 )
 
-[ $UID -eq 0 ] && prompt_fg=red || prompt_fg=blue
+[ $UID -eq 0 ] && prompt_fg='red' || prompt_fg='blue'
 
 typeset -Ag THEME_PROMPT
 THEME_PROMPT=(
@@ -45,18 +45,19 @@ THEME_PROMPT=(
 	git_sha_prefix "${FX[b-]}${FX[i+]}${FG[233]} ("
 	git_sha_suffix ")"
 
+	git_default_fg 232
 	git_default_ch "${CH[b]}"
 
-	git_untracked_fg '196'
+	git_untracked_fg 196
 	git_untracked_ch '★'
 
-	git_dirty_fg '202'
+	git_dirty_fg 202
 	git_dirty_ch '★'
 
-	git_staged_fg '118'
+	git_staged_fg 118
 	git_staged_ch '★'
 
-	git_merging_fg '163'
+	git_merging_fg 163
 	git_mergint_ch '⚡︎'
 )
 		
