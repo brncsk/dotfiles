@@ -43,7 +43,7 @@ function status_segment_weather {
 		02d	226	02n 39
 		03d 158	03n 75
 		04d 67	04n 67
-		10d 67
+		10d 67	10n 67
 	)
 
 	# Refresh if file does not exist or is older than $UPDATE_INTERVAL
