@@ -2,6 +2,9 @@
 REAL_XMODMAP=/usr/bin/xmodmap
 SETXKBMAP=/usr/bin/setxkbmap
 XMODMAPFILE=${HOME}/.Xmodmap
-[[ $1 == '--no-sleep'  ]] || sleep 10s
-DISPLAY=:0 ${SETXKBMAP}
-DISPLAY=:0 ${REAL_XMODMAP} "${XMODMAPFILE}"
+SLEEP_DURATION=15s
+DISPLAY=${DISPLAY:-1}
+
+[[ $1 == '--no-sleep'  ]] || sleep ${SLEEP_DURATION}
+DISPLAY=$DISPLAY ${SETXKBMAP}
+DISPLAY=$DISPLAY ${REAL_XMODMAP} "${XMODMAPFILE}"
