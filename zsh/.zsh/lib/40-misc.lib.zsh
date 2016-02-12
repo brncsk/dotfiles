@@ -12,6 +12,10 @@
 		mkdir -p "$1" && cd "$1"; 
 	}
 
+	function fw () {
+		file $(which $1)
+	}
+
 # History configuration
 	HISTFILE=$HOME/.zsh_history
 	HISTSIZE=10000
@@ -86,6 +90,15 @@
 # Mass renaming with zmv
 
 	autoload -U zmv
+
+
+# Set up ssh-agent
+
+[ -z "$SSH_AUTH_SOCK" ] && SSH_AUTH_SOCK=$(ls -l /tmp/ssh-*/agent.* 2> /dev/null | head -1 | grep $(whoami) | awk '{print $9}')
+[[ -z "$SSH_AGENT_PID" && -z `echo $SSH_AUTH_SOCK | cut -d. -f2` ]] && SSH_AGENT_PID=$((`echo $SSH_AUTH_SOCK | cut -d. -f2` + 1))
+[ -n "$SSH_AUTH_SOCK" ] && export SSH_AUTH_SOCK
+[ -n "$SSH_AGENT_PID" ] && export SSH_AGENT_PID
+
 
 # Misc.
 	export PAGER=less
