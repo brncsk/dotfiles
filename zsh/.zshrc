@@ -10,7 +10,7 @@ LIB_DIR=~/.zsh/lib
 PLUGIN_DIR=~/.zsh/plugins
 ENABLED_PLUGINS=(archlinux zsh-syntax-highlighting custom-prompt)
 
-# Source .zshenv first
+source /etc/profile
 source ~/.zshenv
 
 # Initialize autocompletion
@@ -23,7 +23,7 @@ for lib in ${LIB_DIR}/*.lib.zsh; do
 done
 
 # Then plugins
-for plugin in $ENABLED_PLUGINS; do
+for plugin in "${ENABLED_PLUGINS[@]}"; do
 	[ -r ${PLUGIN_DIR}/${plugin}/${plugin}.plugin.zsh ] && \
 		source ${PLUGIN_DIR}/${plugin}/${plugin}.plugin.zsh
 done

@@ -8,26 +8,39 @@
 	"let &t_8f="\e[38:2:%ld:%ld:%ldm"
 	"let &t_8b="\e[48:2:%ld:%ld:%ldm"
 	"	set guicolors
+	let g:julia_latex_to_unicode=1
+	let g:julia_latex_suggestions_enabled=1
+	let g:julia_auto_latex_to_unicode=1
+	let g:latex_to_unicode_auto = 1
 
 	let g:Powerline_symbols="fancy"
-	filetype plugin indent on
 	set nocompatible
 
+	filetype off
 	set rtp +=~/.vim/bundle/Vundle.vim
 	call vundle#begin()
 
 		Plugin 'gmarik/Vundle.vim'
 
 		Plugin 'tomasr/molokai'
+		Plugin 'altercation/vim-colors-solarized', { 'name': 'solarized' }
+		Plugin 'editorconfig/editorconfig', { 'name': 'editorconfig' }
 
+		Plugin 'othree/html5.vim', { 'name': 'html5' }
 		Plugin 'tikhomirov/vim-glsl', { 'name': 'glsl' }
 		Plugin 'calvinchengx/vim-mapserver', { 'name': 'mapserver'}
 		Plugin 'tkztmk/vim-vala', { 'name': 'vala' }
 		Plugin 'fs111/pydoc.vim', { 'name': 'pydoc' }
 		Plugin 'JuliaLang/julia-vim', { 'name': 'julia' }
+		Plugin 'jelera/vim-javascript-syntax', { 'name': 'javascript' }
+		Plugin 'StanAngeloff/php.vim', { 'name': 'php' }
+		Plugin 'joonty/vim-phpqa', { 'name': 'phpqa' }
 		"Plugin 'taglist'
 		Plugin 'scrooloose/nerdtree'
 		Plugin 'brncsk/vim-powerline', { 'name': 'powerline' }
+		Plugin 'mxw/vim-jsx', { 'name': 'jsx' }
+		Plugin 'sjl/gundo.vim', { 'name': 'gundo' }
+		Plugin 'exu/pgsql.vim', { 'name': 'pgsql' }
 
 		"Plugin 'txtfmt'
 		Plugin 'mattn/emmet-vim', { 'name': 'emmet' }
@@ -36,6 +49,7 @@
 		Plugin 'mtth/scratch.vim', { 'name': 'scratch' }
 
 	call vundle#end()
+	filetype plugin indent on
 
 " }}}
 " Basic options ------------------------------------------------------------------------------- {{{
@@ -56,6 +70,7 @@
 	set matchtime	 =3
 	set mouse		 =a
 	set number
+	set relativenumber
 	set ruler
 	set shell		 =/bin/bash
 	set shiftround
@@ -92,12 +107,13 @@
 " }}}
 " Tabs, spaces, wrapping ---------------------------------------------------------------------- {{{
 
-	set tabstop			=4
-	set shiftwidth		=4
-	set softtabstop		=4
-	set noexpandtab
+	set tabstop			=2
+	set shiftwidth		=2
+	set softtabstop		=0
+	set expandtab
+	set smarttab
 	set wrap
-	set textwidth		=100
+	set textwidth		=120
 	set formatoptions	=qrn1tc
 
 	if exists('+colorcolumn')
@@ -121,9 +137,9 @@
 " Colors -------------------------------------------------------------------------------------- {{{
 
 	set t_Co				=256
-	set background			=dark
-	let g:molokai_original	=1
-	colorscheme molokai
+	set background			=light
+	let g:solarized_termcolors =256 
+	colorscheme solarized
 	syntax on
 
 " }}}
@@ -251,31 +267,13 @@
 	endfunction " }}}
 
 
-	set foldlevelstart	=0
+	set foldlevelstart	=20
 	set foldtext		=MyFoldText()
 	
 	nnoremap <Space>	za
 	vnoremap <Space>	za
 
 	nnoremap <leader>z	zMzvzz
-
-" }}}
-" GUI ----------------------------------------------------------------------------------------- {{{
-
-	if has('gui_running')
-		set guifont		 =Monospace\ 9
-		set columns		 =160
-		set lines		 =50
-		set go			-=e
-		set go			-=l
-		set go			-=L
-		set go			-=r
-		set go			-=R
-		set go			-=T
-		set fillchars	+=vert:│
-
-		highlight SpellBad term=underline gui=undercurl guisp=Orange
-	endif
 
 " }}}
 " Plugins ------------------------------------------------------------------------------------- {{{
@@ -304,22 +302,29 @@
 		imap		<C-t>		<Esc>:tabnew<CR>
 		imap		<ESC>{g		<ESC>gTi
 		imap		<ESC>{h		<ESC>gti
+
+		nnoremap	r			gT
+		nnoremap	t			gt
 	" }}}
+
+	" Omnicompletion on C-Space
+		inoremap <C-Space> <C-x><C-o>
+		inoremap <C-@> <C-Space>
+
+	" Gundo
+		nnoremap <leader>u :GundoToggle<CR>
 
 	" Vala
 		autocmd BufRead *.vala,*.vapi set efm=%f:%l.%c-%[%^:]%#:\ %t%[%^:]%#:\ %m
 		au BufRead,BufNewFile *.vala,*.vapi setfiletype vala
-
-	" GAMS
-		au BufRead,BufNewFile *.gms setfiletype gams
-
+	
 	" MapServer
 		au BufRead,BufNewFile *.map setfiletype map
 
 	" NOOOOO
 		nnoremap	:W			:w
 
-	" Quick-edit frequent stuff in split 
+	" Quick-edit .vimrc in split 
 		nnoremap	<leader>v	<C-w>s<C-w>j:e $MYVIMRC<CR>
 		nnoremap	<leader>r	:source $MYVIMRC<CR>
 
@@ -333,4 +338,18 @@
 
 	" Resize splits when the window is resized
 		au VimResized * exe "normal! \<c-w>="
+
+	" PHP
+
+		function! PhpSyntaxOverride()
+			hi! def link phpDocTags  phpDefine
+			hi! def link phpDocParam phpType
+		endfunction
+
+		augroup phpSyntaxOverride
+			autocmd!
+			autocmd FileType php call PhpSyntaxOverride()
+		augroup END
+
 " }}}
+

@@ -19,6 +19,10 @@ fi
 bindkey -s '\el' "ls\n"
 bindkey -s '\eL' "lsa\n"
 
+# M-g for `git log` M-G for `git status`
+bindkey -s '\eg' "gl\n"
+bindkey -s '\eG' "gst\n"
+
 # M-. for cd ..
 bindkey -s '\e.' "..\n"
 
