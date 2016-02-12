@@ -3,6 +3,7 @@ REAL_TMUX=/usr/bin/tmux
 [ ! -x ${REAL_TMUX} ] && { exit 1; }
 if [ "$#" -eq 0 ]; then
 	TMUX= TERM=screen-256color-t $REAL_TMUX \
+		-u \
 		-2 \
 		-S /data/temp/tmux-wrapper \
 		-f ~/.tmux.wrapper.conf \
@@ -11,7 +12,7 @@ if [ "$#" -eq 0 ]; then
 		-s "$(hostname)-wrapper" \
 		'~/.local/bin/tmux nested'
 elif [ "$1" == "nested" ]; then
-	TMUX= TERM=screen-256color-t $REAL_TMUX -2 -S /data/temp/tmux-nested new-session -A -s "$(hostname)-nested"
+	TMUX= TERM=screen-256color-t $REAL_TMUX -u -2 -S /data/temp/tmux-nested new-session -A -s "$(hostname)-nested"
 else
 	$REAL_TMUX "$@"
 fi

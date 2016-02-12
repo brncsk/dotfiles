@@ -7,7 +7,7 @@ function status_segment_weather {
 	local FORECAST_FILE=~/.tmux/segments/weather/.forecast.tmp
 	
 	local UPDATE_INTERVAL=120
-	local WIND_HIGH_THRESHOLD=40
+	local WIND_HIGH_THRESHOLD=20
 	local FORECAST_TOMORROW_THRESHOLD=12
 
 	typeset -A weather_icons
@@ -67,9 +67,9 @@ function status_segment_weather {
 	weather_icon=${weather_icons[${weather_icon_id}]}
 	weather_color=$weather_colors[$weather_icon_id]
 	weather_wind_direction=$(jshon -ewind -edeg -u <${WEATHER_FILE})
-	weather_wind_speed=$(jshon -ewind -speed -u <${WEATHER_FILE})
-	[[ ${weather_wind_speed} -gt 40 ]] && weather_wind_speed=h || weather_wind_speed=l
-	weather_wind_arrow=${weather_wind_arrows[$(_wind_direction ${weather_wind_direction})_${weather_wind_speed}]}
+	weather_wind_speed=$(printf '%d' $(jshon -ewind -espeed -u <${WEATHER_FILE}))
+	[[ ${weather_wind_speed} -gt 20 ]] && weather_wind_speed_class=h || weather_wind_speed_class=l
+	weather_wind_arrow=${weather_wind_arrows[$(_wind_direction ${weather_wind_direction})_${weather_wind_speed_class}]}
 	
 	[[ $(date +%k) -ge ${FORECAST_TOMORROW_THRESHOLD} ]] && {
 		forecast_index=1; forecast_designation="tm: " } || {
@@ -79,7 +79,7 @@ function status_segment_weather {
 
 	render_status_segment_split \
 		"${weather_color}" \
-		"${weather_icon}  ${weather_wind_arrow} "  \
+		"${weather_icon}  ${weather_wind_arrow} (${weather_wind_speed} kph)"  \
 		"$FX[b+]$FG[232]${weather_temp} °C$FX[b-] $FG[233]$FX[i+](${forecast_designation}${forecast_desc}, ${forecast_max} °C)$FX[i-]"
 }
 
