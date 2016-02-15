@@ -11,3 +11,8 @@ vim/.vim/.VimballRecord
 vim/.vim/.netrwhist
 zsh/.zsh/cache/*
 tmux/.tmux/.vim-tablist
+qgis/.qgis2/*
+!qgis/.qgis2/shortcuts.xml
+terminfo/.terminfo/*
+!terminfo/.terminfo/screen-256color-t.ti
+**/.DS_Store
