@@ -1,7 +1,7 @@
 #!/bin/sh
 
 PREFIX=${HOME}/.local/bin
-USERSHELL=/usr/bin/zsh
+USERSHELL=/bin/zsh
 TMUX_WRAPPER=${PREFIX}/tmux
 
 export LANG="hu_HU.UTF-8"
