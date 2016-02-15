@@ -1,4 +1,4 @@
-MODULES_BASE=bash git terminfo tmux vim zsh
+MODULES_BASE=bash git terminfo tmux vim zsh misc
 MODULES_BIN=bin
 MODULES_X=qgis x
 
