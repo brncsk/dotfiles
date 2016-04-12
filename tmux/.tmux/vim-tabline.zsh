@@ -14,13 +14,13 @@ if [[ "$(pgrep vim$)" != "" ]]; then
 	foreach t ("${(f)$(cat $TABFILE)}"); do
 		current=0; unsaved=;
 		[[ $t == '>'* ]] && { current=1; };
-		[[ $t == *'*' ]] && { unsaved="$FG[red]*"; };
+		[[ $t == *'*' ]] && { unsaved="$FG[red] ★"; };
 		
 		t=${${t:s/>//}:s/*//}
 		[[ "$t" == '' ]] && t="$FX[i+](unsaved buffer)$FX[i-]";
 
 		if [[ $current == 1 ]]; then
-			echo -n "$BG[238]$FG[234]$BG[234]$FG[white]$FX[b+] $t$unsaved $FX[b-]$BG[238]$FG[234]$FX[0]$BG[238] "
+			echo -n "$BG[238]$FG[230]$BG[230]$FG[black]$FX[b+] $t$unsaved $FX[b-]$BG[238]$FG[230]$FX[0]$BG[238] "
 		else
 			echo -n "$BG[238]$FG[236]$BG[236]$FG[248] $t$unsaved $BG[238]$FG[236]$FX[0]$BG[238] "
 		fi
