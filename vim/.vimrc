@@ -41,12 +41,15 @@
 		Plugin 'mxw/vim-jsx', { 'name': 'jsx' }
 		Plugin 'sjl/gundo.vim', { 'name': 'gundo' }
 		Plugin 'exu/pgsql.vim', { 'name': 'pgsql' }
+    Plugin 'isRuslan/vim-es6', { 'name': 'es6' }
 
 		"Plugin 'txtfmt'
 		Plugin 'mattn/emmet-vim', { 'name': 'emmet' }
 		Plugin 'tpope/vim-fugitive', { 'name': 'fugitive' }
 		Plugin 'edsono/vim-matchit', { 'name': 'matchit' }
 		Plugin 'mtth/scratch.vim', { 'name': 'scratch' }
+
+    Plugin 'tmux-plugins/vim-tmux-focus-events'
 
 	call vundle#end()
 	filetype plugin indent on
@@ -149,6 +152,7 @@
 		set showtabline=0
 
 		autocmd FocusGained * echo 'FocusGained'
+		autocmd FocusLost * echo 'FocusLost'
 
 		autocmd VimEnter,BufAdd,BufCreate,FileWritePost,BufEnter,BufUnload,FocusGained * call UpdateTablist()
 		function! UpdateTablist()
@@ -296,10 +300,10 @@
 " Miscellanea --------------------------------------------------------------------------------- {{{
 	
 	" GTK+-esque tab switching {{{
-		nmap		<C-t>		:tabnew<CR>
+		nmap		<C-t>		  :tabnew<CR>
 		nmap		<ESC>{g		gT
 		nmap		<ESC>{h		gt
-		imap		<C-t>		<Esc>:tabnew<CR>
+		imap		<C-t>		  <Esc>:tabnew<CR>
 		imap		<ESC>{g		<ESC>gTi
 		imap		<ESC>{h		<ESC>gti
 
@@ -338,6 +342,13 @@
 
 	" Resize splits when the window is resized
 		au VimResized * exe "normal! \<c-w>="
+
+  " Split navigation
+    nnoremap <M-J> <C-W><C-J>
+    nnoremap <M-K> <C-W><C-K>
+    nnoremap <M-L> <C-W><C-L>
+    nnoremap <M-H> <C-W><C-H>
+
 
 	" PHP
 

@@ -2,9 +2,9 @@ alias _='sudo'
 
 alias sl=ls
 
-alias ls='ls     -l'
-alias lS='ls  -S -l'
-alias lsa='ls -a -l'
+alias ls='ls     -l -h'
+alias lS='ls  -S -l -h'
+alias lsa='ls -a -l -h'
 
 alias  o='gnome-open'
 alias so='gksudo gnome-open'

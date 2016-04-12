@@ -27,3 +27,5 @@ for plugin in "${ENABLED_PLUGINS[@]}"; do
 	[ -r ${PLUGIN_DIR}/${plugin}/${plugin}.plugin.zsh ] && \
 		source ${PLUGIN_DIR}/${plugin}/${plugin}.plugin.zsh
 done
+
+test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
