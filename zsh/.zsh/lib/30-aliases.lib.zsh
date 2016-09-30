@@ -6,8 +6,8 @@ alias ls='ls     -l -h'
 alias lS='ls  -S -l -h'
 alias lsa='ls -a -l -h'
 
-alias  o='gnome-open'
-alias so='gksudo gnome-open'
+alias  o='open'
+alias so='sudo open'
 
 alias wd='watch -tc "dmesg | tail -$(tput lines)"'
 
@@ -93,3 +93,6 @@ alias vim='nocorrect vim'
 alias scs='sudo systemctl start'
 alias scr='sudo systemctl restart'
 alias sct='systemctl status'
+
+alias vim='reattach-to-user-namespace vim'
+alias tmux='reattach-to-user-namespace tmux'
