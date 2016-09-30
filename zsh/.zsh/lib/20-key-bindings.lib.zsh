@@ -15,13 +15,13 @@ else
 	bindkey "\e[3~" delete-char
 fi
 
-# M-l for ls, M-L for ls -a
-bindkey -s '\el' "ls\n"
-bindkey -s '\eL' "lsa\n"
+# M-l for lsa, M-L for ls (I use the former way more often so add the extra modifier to the latter)
+bindkey -s '\el' "lsa\n"
+bindkey -s '\eL' "ls\n"
 
-# M-g for `git log` M-G for `git status`
-bindkey -s '\eg' "gl\n"
-bindkey -s '\eG' "gst\n"
+# M-g for `git status` M-G for `git log`
+bindkey -s '\eg' "gst\n"
+bindkey -s '\eG' "gl\n"
 
 # M-. for cd ..
 bindkey -s '\e.' "..\n"
@@ -72,4 +72,4 @@ function _complete_and_autojump () {
 	zle accept-line
 }
 zle -N _complete_and_autojump
-bindkey '\e\n' _complete_and_autojump
+bindkey '\e\r' _complete_and_autojump
