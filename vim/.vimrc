@@ -4,7 +4,6 @@
 
 " Preamble ------------------------------------------------------------------------------------ {{{
 
-	" TODO: enable this as soon as the background color erase bug is gone from 24-bit color enabled VTE
 	"let &t_8f="\e[38:2:%ld:%ld:%ldm"
 	"let &t_8b="\e[48:2:%ld:%ld:%ldm"
 	"	set guicolors
@@ -204,7 +203,18 @@
 	nnoremap	*					*<c-o>
 	nnoremap	<silent> <leader>/	:execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
 
-	function! PulseCursorLine () " {{{
+  nnoremap j gj
+  nnoremap k gk
+  vnoremap j gj
+  vnoremap k gk
+  nnoremap <Down> gj
+  nnoremap <Up> gk
+  vnoremap <Down> gj
+  vnoremap <Up> gk
+  inoremap <Down> <C-o>gj
+  inoremap <Up> <C-o>gk
+  
+  function! PulseCursorLine () " {{{
 		let current_window = winnr()
 		windo set nocursorline
 		execute current_window . 'wincmd w'
