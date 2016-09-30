@@ -39,6 +39,10 @@ zstyle ':completion::complete:*' cache-path ~/.zsh/cache/
 
 zstyle '*' single-ignored show
 
+# autojump
+[[ -s $(brew  --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+autoload -U compinit && compinit
+
 expand-or-complete-with-dots() {
 	echo -n $THEME_PROMPT[comp_busy]
 	zle expand-or-complete
