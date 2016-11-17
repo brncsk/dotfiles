@@ -73,3 +73,6 @@ function _complete_and_autojump () {
 }
 zle -N _complete_and_autojump
 bindkey '\e\r' _complete_and_autojump
+
+# Clear screen on C-f (C-l is bound by vim-tmux-navigator)
+bindkey -s '^f' "clear\n"
