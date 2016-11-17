@@ -41,7 +41,7 @@ THEME_PROMPT=(
 	shallow_ssh_host_prefix " ${CH[W]}  ${FG[$prompt_fg]}"
 	shallow_ssh_suffix		" ${CH[I]} "
 
-	deep_ssh_user_prefix	"${BG[31]}"
+	deep_ssh_user_prefix	"${BG[32]}"
 	deep_ssh_host_prefix " ${CH[W]}  ${BG[0]}"
 	deep_ssh_suffix		" ${CH[I]} "
 
