@@ -6,5 +6,5 @@
 \set HISTCONTROL ignoredups
 \set HISTFILE ~/.psql_history/.psql_history- :DBNAME
 \set COMP_KEYWORD_CASE upper 
-\set VERBOSITY verbose
+\set VERBOSITY terse
 \unset QUIET
