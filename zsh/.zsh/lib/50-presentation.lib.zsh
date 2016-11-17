@@ -37,7 +37,7 @@ CH=(
 	f	''					# Fan
 	c	'⌚'					# Clock
 	V	''					# VIM
-  W '🌍'
+  W '◉'
 )
 
 NAMED_COLORS=(
