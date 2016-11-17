@@ -49,6 +49,8 @@
 		Plugin 'mtth/scratch.vim', { 'name': 'scratch' }
 
     Plugin 'tmux-plugins/vim-tmux-focus-events'
+    Plugin 'christoomey/vim-tmux-navigator'
+    Plugin 'wincent/command-t'
 
 	call vundle#end()
 	filetype plugin indent on
@@ -149,9 +151,6 @@
 	
 	if exists("+showtabline")
 		set showtabline=0
-
-		autocmd FocusGained * echo 'FocusGained'
-		autocmd FocusLost * echo 'FocusLost'
 
 		autocmd VimEnter,BufAdd,BufCreate,FileWritePost,BufEnter,BufUnload,FocusGained * call UpdateTablist()
 		function! UpdateTablist()
@@ -306,6 +305,15 @@
 	" Zen coding {{{
 		:inoremap <C-Tab> <C-y>,
 	" }}}
+
+  " Command-t
+  if &term =~ "xterm" || &term =~ "screen"
+    let g:CommandTCancelMap = ['<ESC>', '<C-c>']
+  endif
+
+  nnoremap - :CommandT<CR>
+
+  let g:CommandTMaxFiles=5000000
 " }}}
 " Miscellanea --------------------------------------------------------------------------------- {{{
 	
