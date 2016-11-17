@@ -3,7 +3,7 @@
 [ -n $TMUX ] && () {
 
 	SEGMENT_DIR=~/.tmux/segments
-	SEGMENTS=(spotify sound clock)
+	SEGMENTS=(sound clock)
 	
 	export THEME_BACKEND=tmux
 	source ~/.zsh/lib/50-presentation.lib.zsh
