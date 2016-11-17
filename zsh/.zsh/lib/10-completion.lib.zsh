@@ -40,7 +40,7 @@ zstyle ':completion::complete:*' cache-path ~/.zsh/cache/
 zstyle '*' single-ignored show
 
 # autojump
-[[ -s $(brew  --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+command -v brew > /dev/null 2>&1 && [[ -s $(brew  --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
 autoload -U compinit && compinit
 
 expand-or-complete-with-dots() {

@@ -50,7 +50,7 @@
 	setopt long_list_jobs
 
 # Enable syntax highlighting in some tools
-	[[ -x $(which highlight) ]] && {
+	command -v highlight 2>&1 && {
 		function cat sed awk grep () {
 			local syntax
 
@@ -95,15 +95,6 @@
 # Mass renaming with zmv
 
 	autoload -U zmv
-
-
-# Set up ssh-agent
-
-[ -z "$SSH_AUTH_SOCK" ] && SSH_AUTH_SOCK=$(ls -l /tmp/ssh-*/agent.* 2> /dev/null | head -1 | grep $(whoami) | awk '{print $9}')
-[[ -z "$SSH_AGENT_PID" && -z `echo $SSH_AUTH_SOCK | cut -d. -f2` ]] && SSH_AGENT_PID=$((`echo $SSH_AUTH_SOCK | cut -d. -f2` + 1))
-[ -n "$SSH_AUTH_SOCK" ] && export SSH_AUTH_SOCK
-[ -n "$SSH_AGENT_PID" ] && export SSH_AGENT_PID
-
 
 # Misc.
 	export PAGER=less

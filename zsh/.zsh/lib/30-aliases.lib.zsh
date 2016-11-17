@@ -2,9 +2,15 @@ alias _='sudo'
 
 alias sl=ls
 
-alias ls='ls     -l -h'
-alias lS='ls  -S -l -h'
-alias lsa='ls -a -l -h'
+if [ $(uname) = 'Darwin' ]; then
+  ls_flags='-l -h -G' 
+else
+  ls_flags='-l --human-readable --group-directories-first --color=auto'
+fi
+
+alias ls="ls     ${ls_flags}"
+alias lS="ls  -S ${ls_flags}"
+alias lsa="ls -a ${ls_flags}"
 
 alias  o='open'
 alias so='sudo open'
@@ -90,9 +96,13 @@ alias mysql='nocorrect mysql'
 alias mkdir='nocorrect mkdir'
 alias vim='nocorrect vim'
 
-alias scs='sudo systemctl start'
-alias scr='sudo systemctl restart'
-alias sct='systemctl status'
+if [ $(uname) = 'Linux' ]; then
+  alias scs='sudo systemctl start'
+  alias scr='sudo systemctl restart'
+  alias sct='systemctl status'
+fi
 
-alias vim='reattach-to-user-namespace vim'
-alias tmux='reattach-to-user-namespace tmux'
+if [ $(uname) = 'Darwin' ]; then
+  alias vim='reattach-to-user-namespace vim'
+  alias tmux='reattach-to-user-namespace tmux'
+fi

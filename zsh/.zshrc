@@ -8,7 +8,7 @@ export BROWSER=firefox
 
 LIB_DIR=~/.zsh/lib
 PLUGIN_DIR=~/.zsh/plugins
-ENABLED_PLUGINS=(archlinux zsh-syntax-highlighting custom-prompt)
+ENABLED_PLUGINS=(zsh-syntax-highlighting custom-prompt)
 
 source /etc/profile
 source ~/.zshenv
