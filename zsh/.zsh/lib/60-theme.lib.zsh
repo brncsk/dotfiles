@@ -37,7 +37,7 @@ THEME_PROMPT=(
 	suffix			"${FG[grey4]} ${CH[ar]} ${FX[0]}"
 	comp_busy		"${CH[e]}"
 
-	shallow_ssh_user_prefix	"${FG[234]}"
+	shallow_ssh_user_prefix	"${FG[238]}"
 	shallow_ssh_host_prefix " ${CH[W]}  ${FG[$prompt_fg]}"
 	shallow_ssh_suffix		" ${CH[I]} "
 
