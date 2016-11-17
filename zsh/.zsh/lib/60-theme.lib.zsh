@@ -38,11 +38,11 @@ THEME_PROMPT=(
 	comp_busy		"${CH[e]}"
 
 	shallow_ssh_user_prefix	"${FG[234]}"
-	shallow_ssh_host_prefix " 🔃  ${FG[$prompt_fg]}"
+	shallow_ssh_host_prefix " ${CH[W]}  ${FG[$prompt_fg]}"
 	shallow_ssh_suffix		" ${CH[I]} "
 
 	deep_ssh_user_prefix	"${BG[31]}"
-	deep_ssh_host_prefix " 🔃  ${BG[0]}"
+	deep_ssh_host_prefix " ${CH[W]}  ${BG[0]}"
 	deep_ssh_suffix		" ${CH[I]} "
 
 	git_branch_prefix "${FX[b+]}${FG[232]}"
